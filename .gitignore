@@ -1,0 +1,32 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+quarto
+# /
+
+# other binary
+*.o
+# *.exe
+*.so
+
+# temporary files
+# *~
+# *.idx
+# *.ilg
+# *.ind
+
+# depedencies files
+# *.d
+# *.hpp.d.*
+# .Rapp.history
+
+# For the Mac
+*.DS_Store
+
+#
+*.swp
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
