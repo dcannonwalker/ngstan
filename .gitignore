@@ -3,6 +3,10 @@
 .RData
 .Ruserdata
 quarto
+
+# raw data files
+*.txt
+
 # /
 
 # other binary
