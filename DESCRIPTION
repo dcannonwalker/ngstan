@@ -29,3 +29,7 @@ SystemRequirements: GNU make
 URL: https://github.com/dcannonwalker/ngstan
 BugReports: https://github.com/dcannonwalker/ngstan/issues
 RoxygenNote: 7.3.2
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
