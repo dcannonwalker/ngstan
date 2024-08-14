@@ -1,0 +1,21 @@
+---
+title: "differential-translational-efficiency"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{differential-translational-efficiency}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ngstan)
+data(dte)
+dte_simple <- dte[, c(1, 2:10, 20:28)]
+```
