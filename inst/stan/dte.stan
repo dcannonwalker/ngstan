@@ -6,8 +6,8 @@ data {
     int<lower=0> U; //number of columns in the random effects matrix Z_g
     int<lower=0> y[N_g * G]; //response
     // matrix[N, K] X;
-    matrix[N_g, K] X_g;
-    matrix[N_g, U] Z_g;
+    matrix[N_g, K] X_g; // per group fixed effects design
+    matrix[N_g, U] Z_g; // per group random effects design
     real<lower=0> a_p;
     real<lower=0> b_p;
     real<lower=0> a_sig2[K];
