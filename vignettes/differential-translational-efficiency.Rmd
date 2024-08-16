@@ -17,5 +17,10 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(ngstan)
 data(dte)
-dte_simple <- dte[, c(1, 2:10, 20:28)]
+dte_simple <- dte[1:100, c(1, 2:10, 20:28)]
 ```
+
+```{r dte_stan}
+
+```
+
