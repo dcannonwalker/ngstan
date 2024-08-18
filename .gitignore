@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 quarto
+work_notes
 
 # raw data files
 *.txt
