@@ -8,6 +8,7 @@
 #' @param Z_g matrix representing the random effects design,
 #' i.e. which Ribo-Seq and mRNA samples are paired,
 #' for counts from a single gene
+#' @export
 prep_dte_data <- function(counts, sample_names, X_g, Z_g) {
     G <- nrow(counts)
     y <- c(t(as.matrix(dte[, sample_names])))

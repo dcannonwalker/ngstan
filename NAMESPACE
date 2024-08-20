@@ -2,6 +2,7 @@
 
 export(calc_norm_factors)
 export(dte_stan)
+export(prep_dte_data)
 import(Rcpp)
 import(methods)
 importFrom(rstan,sampling)
