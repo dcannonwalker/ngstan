@@ -14,6 +14,7 @@
 #' @param b_sig2 vector of scale parameters for Inverse Gamma priors on `sig2`
 #' @param sig2_mu vector of variances for the Gaussian prior on `mu`
 #' @param sig2_u vector of variances for the Gaussian prior on random effects
+#' @param vb Logical; use variational bayes instead of sampling?
 #' @param ... Arguments passed to `rstan::sampling` (e.g. iter, chains).
 #' @return An object of class `stanfit` returned by `rstan::sampling`
 #'
