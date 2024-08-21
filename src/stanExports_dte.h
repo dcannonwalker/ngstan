@@ -27,75 +27,79 @@ namespace model_dte_namespace {
 using stan::model::model_base_crtp;
 using namespace stan::math;
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 68> locations_array__ =
+static constexpr std::array<const char*, 72> locations_array__ =
   {" (found before start of program)",
   " (in 'dte', line 26, column 4 to column 28)",
   " (in 'dte', line 27, column 4 to column 17)",
   " (in 'dte', line 28, column 4 to column 19)",
   " (in 'dte', line 29, column 4 to column 29)",
   " (in 'dte', line 30, column 4 to column 25)",
-  " (in 'dte', line 33, column 4 to column 26)",
-  " (in 'dte', line 59, column 4 to column 40)",
-  " (in 'dte', line 36, column 19 to column 20)",
-  " (in 'dte', line 36, column 12 to column 42)",
-  " (in 'dte', line 37, column 12 to column 44)",
-  " (in 'dte', line 38, column 12 to column 49)",
-  " (in 'dte', line 40, column 16 to column 32)",
-  " (in 'dte', line 41, column 16 to column 68)",
-  " (in 'dte', line 42, column 16 to line 43, column 57)",
-  " (in 'dte', line 39, column 29 to line 44, column 13)",
-  " (in 'dte', line 39, column 12 to line 44, column 13)",
-  " (in 'dte', line 35, column 23 to line 45, column 9)",
-  " (in 'dte', line 35, column 8 to line 45, column 9)",
-  " (in 'dte', line 34, column 19 to line 46, column 5)",
-  " (in 'dte', line 34, column 4 to line 46, column 5)",
-  " (in 'dte', line 61, column 8 to column 65)",
-  " (in 'dte', line 60, column 19 to line 62, column 5)",
-  " (in 'dte', line 60, column 4 to line 62, column 5)",
-  " (in 'dte', line 49, column 4 to column 28)",
-  " (in 'dte', line 50, column 4 to column 37)",
-  " (in 'dte', line 51, column 4 to column 23)",
-  " (in 'dte', line 53, column 8 to column 33)",
-  " (in 'dte', line 54, column 8 to column 35)",
-  " (in 'dte', line 55, column 8 to column 37)",
-  " (in 'dte', line 52, column 19 to line 56, column 5)",
-  " (in 'dte', line 52, column 4 to line 56, column 5)",
-  " (in 'dte', line 3, column 4 to column 19)",
-  " (in 'dte', line 4, column 4 to column 21)",
+  " (in 'dte', line 34, column 4 to column 26)",
+  " (in 'dte', line 63, column 4 to column 40)",
+  " (in 'dte', line 37, column 19 to column 20)",
+  " (in 'dte', line 37, column 12 to column 42)",
+  " (in 'dte', line 38, column 12 to column 44)",
+  " (in 'dte', line 39, column 12 to column 49)",
+  " (in 'dte', line 41, column 16 to column 32)",
+  " (in 'dte', line 42, column 16 to column 75)",
+  " (in 'dte', line 43, column 16 to line 44, column 57)",
+  " (in 'dte', line 40, column 29 to line 45, column 13)",
+  " (in 'dte', line 40, column 12 to line 45, column 13)",
+  " (in 'dte', line 36, column 23 to line 46, column 9)",
+  " (in 'dte', line 36, column 8 to line 46, column 9)",
+  " (in 'dte', line 35, column 19 to line 47, column 5)",
+  " (in 'dte', line 35, column 4 to line 47, column 5)",
+  " (in 'dte', line 65, column 8 to column 65)",
+  " (in 'dte', line 64, column 19 to line 66, column 5)",
+  " (in 'dte', line 64, column 4 to line 66, column 5)",
+  " (in 'dte', line 53, column 4 to column 28)",
+  " (in 'dte', line 54, column 4 to column 37)",
+  " (in 'dte', line 55, column 4 to column 23)",
+  " (in 'dte', line 57, column 8 to column 33)",
+  " (in 'dte', line 58, column 8 to column 35)",
+  " (in 'dte', line 59, column 8 to column 37)",
+  " (in 'dte', line 56, column 19 to line 60, column 5)",
+  " (in 'dte', line 56, column 4 to line 60, column 5)",
+  " (in 'dte', line 2, column 4 to column 19)",
+  " (in 'dte', line 3, column 4 to column 21)",
+  " (in 'dte', line 4, column 4 to column 19)",
   " (in 'dte', line 5, column 4 to column 19)",
-  " (in 'dte', line 6, column 4 to column 19)",
-  " (in 'dte', line 7, column 19 to column 26)",
-  " (in 'dte', line 7, column 4 to column 28)",
-  " (in 'dte', line 9, column 11 to column 14)",
-  " (in 'dte', line 9, column 16 to column 17)",
-  " (in 'dte', line 9, column 4 to column 23)",
-  " (in 'dte', line 10, column 11 to column 14)",
-  " (in 'dte', line 10, column 16 to column 17)",
-  " (in 'dte', line 10, column 4 to column 23)",
-  " (in 'dte', line 11, column 4 to column 22)",
-  " (in 'dte', line 12, column 4 to column 22)",
-  " (in 'dte', line 13, column 25 to column 26)",
-  " (in 'dte', line 13, column 4 to column 28)",
+  " (in 'dte', line 6, column 19 to column 26)",
+  " (in 'dte', line 6, column 4 to column 28)",
+  " (in 'dte', line 7, column 11 to column 14)",
+  " (in 'dte', line 7, column 16 to column 17)",
+  " (in 'dte', line 7, column 4 to column 23)",
+  " (in 'dte', line 8, column 11 to column 14)",
+  " (in 'dte', line 8, column 16 to column 17)",
+  " (in 'dte', line 8, column 4 to column 23)",
+  " (in 'dte', line 9, column 4 to column 22)",
+  " (in 'dte', line 10, column 4 to column 22)",
+  " (in 'dte', line 11, column 25 to column 26)",
+  " (in 'dte', line 11, column 4 to column 28)",
+  " (in 'dte', line 12, column 25 to column 26)",
+  " (in 'dte', line 12, column 4 to column 28)",
+  " (in 'dte', line 13, column 26 to column 27)",
+  " (in 'dte', line 13, column 4 to column 29)",
   " (in 'dte', line 14, column 25 to column 26)",
   " (in 'dte', line 14, column 4 to column 28)",
-  " (in 'dte', line 15, column 26 to column 27)",
-  " (in 'dte', line 15, column 4 to column 29)",
-  " (in 'dte', line 16, column 25 to column 26)",
-  " (in 'dte', line 16, column 4 to column 28)",
-  " (in 'dte', line 20, column 10 to column 11)",
-  " (in 'dte', line 20, column 13 to column 16)",
-  " (in 'dte', line 20, column 4 to column 35)",
-  " (in 'dte', line 22, column 8 to column 46)",
-  " (in 'dte', line 21, column 19 to line 23, column 5)",
-  " (in 'dte', line 21, column 4 to line 23, column 5)",
+  " (in 'dte', line 16, column 11 to column 14)",
+  " (in 'dte', line 16, column 4 to column 29)",
+  " (in 'dte', line 19, column 10 to column 11)",
+  " (in 'dte', line 19, column 13 to column 16)",
+  " (in 'dte', line 19, column 4 to column 35)",
+  " (in 'dte', line 21, column 8 to column 46)",
+  " (in 'dte', line 20, column 19 to line 22, column 5)",
+  " (in 'dte', line 20, column 4 to line 22, column 5)",
+  " (in 'dte', line 23, column 11 to column 14)",
+  " (in 'dte', line 23, column 4 to column 33)",
   " (in 'dte', line 26, column 10 to column 11)",
   " (in 'dte', line 26, column 20 to column 21)",
   " (in 'dte', line 27, column 11 to column 12)",
   " (in 'dte', line 28, column 11 to column 12)",
   " (in 'dte', line 30, column 10 to column 11)",
   " (in 'dte', line 30, column 20 to column 21)",
-  " (in 'dte', line 33, column 10 to column 11)",
-  " (in 'dte', line 59, column 10 to column 11)"};
+  " (in 'dte', line 34, column 10 to column 11)",
+  " (in 'dte', line 63, column 10 to column 11)"};
 #include <stan_meta_header.hpp>
 class model_dte final : public model_base_crtp<model_dte> {
 private:
@@ -112,9 +116,13 @@ private:
   std::vector<double> b_sig2;
   std::vector<double> sig2_mu;
   std::vector<double> sig2_u;
+  Eigen::Matrix<double,-1,1> norm_factors_data__;
   std::vector<std::vector<int>> y_g;
+  Eigen::Matrix<double,-1,1> S_data__;
   Eigen::Map<Eigen::Matrix<double,-1,-1>> X_g{nullptr, 0, 0};
   Eigen::Map<Eigen::Matrix<double,-1,-1>> Z_g{nullptr, 0, 0};
+  Eigen::Map<Eigen::Matrix<double,-1,1>> norm_factors{nullptr, 0};
+  Eigen::Map<Eigen::Matrix<double,-1,1>> S{nullptr, 0};
 public:
   ~model_dte() {}
   model_dte(stan::io::var_context& context__, unsigned int random_seed__ = 0,
@@ -298,37 +306,70 @@ public:
       current_statement__ = 53;
       stan::math::check_greater_or_equal(function__, "sig2_u", sig2_u, 0);
       current_statement__ = 54;
-      stan::math::validate_non_negative_index("y_g", "G", G);
+      stan::math::validate_non_negative_index("norm_factors", "N_g", N_g);
       current_statement__ = 55;
-      stan::math::validate_non_negative_index("y_g", "N_g", N_g);
+      context__.validate_dims("data initialization", "norm_factors",
+        "double", std::vector<size_t>{static_cast<size_t>(N_g)});
+      norm_factors_data__ = Eigen::Matrix<double,-1,1>::Constant(N_g,
+                              std::numeric_limits<double>::quiet_NaN());
+      new (&norm_factors)
+        Eigen::Map<Eigen::Matrix<double,-1,1>>(norm_factors_data__.data(),
+        N_g);
+      {
+        std::vector<local_scalar_t__> norm_factors_flat__;
+        current_statement__ = 55;
+        norm_factors_flat__ = context__.vals_r("norm_factors");
+        current_statement__ = 55;
+        pos__ = 1;
+        current_statement__ = 55;
+        for (int sym1__ = 1; sym1__ <= N_g; ++sym1__) {
+          current_statement__ = 55;
+          stan::model::assign(norm_factors, norm_factors_flat__[(pos__ - 1)],
+            "assigning variable norm_factors", stan::model::index_uni(sym1__));
+          current_statement__ = 55;
+          pos__ = (pos__ + 1);
+        }
+      }
       current_statement__ = 56;
+      stan::math::validate_non_negative_index("y_g", "G", G);
+      current_statement__ = 57;
+      stan::math::validate_non_negative_index("y_g", "N_g", N_g);
+      current_statement__ = 58;
       y_g = std::vector<std::vector<int>>(G,
               std::vector<int>(N_g, std::numeric_limits<int>::min()));
-      current_statement__ = 59;
+      current_statement__ = 61;
       for (int g = 1; g <= G; ++g) {
-        current_statement__ = 57;
+        current_statement__ = 59;
         stan::model::assign(y_g,
           stan::model::rvalue(y, "y",
             stan::model::index_min_max(((N_g * (g - 1)) + 1), (N_g * g))),
           "assigning variable y_g", stan::model::index_uni(g));
       }
-      current_statement__ = 56;
-      stan::math::check_greater_or_equal(function__, "y_g", y_g, 0);
-      current_statement__ = 60;
-      stan::math::validate_non_negative_index("beta", "G", G);
-      current_statement__ = 61;
-      stan::math::validate_non_negative_index("beta", "K", K);
       current_statement__ = 62;
-      stan::math::validate_non_negative_index("mu", "K", K);
+      stan::math::validate_non_negative_index("S", "N_g", N_g);
       current_statement__ = 63;
-      stan::math::validate_non_negative_index("sig2", "K", K);
+      S_data__ = Eigen::Matrix<double,-1,1>::Constant(N_g,
+                   std::numeric_limits<double>::quiet_NaN());
+      new (&S) Eigen::Map<Eigen::Matrix<double,-1,1>>(S_data__.data(), N_g);
+      current_statement__ = 63;
+      stan::model::assign(S, norm_factors, "assigning variable S");
+      current_statement__ = 58;
+      stan::math::check_greater_or_equal(function__, "y_g", y_g, 0);
       current_statement__ = 64;
-      stan::math::validate_non_negative_index("u", "G", G);
+      stan::math::validate_non_negative_index("beta", "G", G);
       current_statement__ = 65;
-      stan::math::validate_non_negative_index("u", "U", U);
+      stan::math::validate_non_negative_index("beta", "K", K);
       current_statement__ = 66;
-      stan::math::validate_non_negative_index("lp", "G", G);
+      stan::math::validate_non_negative_index("mu", "K", K);
       current_statement__ = 67;
+      stan::math::validate_non_negative_index("sig2", "K", K);
+      current_statement__ = 68;
+      stan::math::validate_non_negative_index("u", "G", G);
+      current_statement__ = 69;
+      stan::math::validate_non_negative_index("u", "U", U);
+      current_statement__ = 70;
+      stan::math::validate_non_negative_index("lp", "G", G);
+      current_statement__ = 71;
       stan::math::validate_non_negative_index("p_g", "G", G);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -413,15 +454,16 @@ public:
           for (int i = 1; i <= N_g; ++i) {
             local_scalar_t__ log_lambda = DUMMY_VAR__;
             current_statement__ = 13;
-            log_lambda = (stan::math::multiply(
-                            stan::model::rvalue(X_g, "X_g",
-                              stan::model::index_uni(i),
-                              stan::model::index_omni()), beta_star)
+            log_lambda = ((stan::math::multiply(
+                             stan::model::rvalue(X_g, "X_g",
+                               stan::model::index_uni(i),
+                               stan::model::index_omni()), beta_star)
               +
               stan::math::multiply(
                 stan::model::rvalue(Z_g, "Z_g", stan::model::index_uni(i),
                   stan::model::index_omni()),
-                stan::model::rvalue(u, "u", stan::model::index_uni(g))));
+                stan::model::rvalue(u, "u", stan::model::index_uni(g))))
+              + stan::model::rvalue(S, "S", stan::model::index_uni(i)));
             current_statement__ = 14;
             stan::model::assign(lp,
               (stan::model::rvalue(
@@ -573,15 +615,16 @@ public:
           for (int i = 1; i <= N_g; ++i) {
             double log_lambda = std::numeric_limits<double>::quiet_NaN();
             current_statement__ = 13;
-            log_lambda = (stan::math::multiply(
-                            stan::model::rvalue(X_g, "X_g",
-                              stan::model::index_uni(i),
-                              stan::model::index_omni()), beta_star)
+            log_lambda = ((stan::math::multiply(
+                             stan::model::rvalue(X_g, "X_g",
+                               stan::model::index_uni(i),
+                               stan::model::index_omni()), beta_star)
               +
               stan::math::multiply(
                 stan::model::rvalue(Z_g, "Z_g", stan::model::index_uni(i),
                   stan::model::index_omni()),
-                stan::model::rvalue(u, "u", stan::model::index_uni(g))));
+                stan::model::rvalue(u, "u", stan::model::index_uni(g))))
+              + stan::model::rvalue(S, "S", stan::model::index_uni(i)));
             current_statement__ = 14;
             stan::model::assign(lp,
               (stan::model::rvalue(

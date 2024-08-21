@@ -6,6 +6,8 @@
 #' @param X_g Fixed effects design matrix for a single group
 #' @param Z_g Random effects design matrix for a single group
 #' @param y Numeric vector of output values, sorted by group
+#' @param norm_factors Numeric vector of normalization factors
+#' for each sample
 #' @param a_p scale parameter for Beta prior on `p`
 #' @param b_p shape parameter for Beta prior on `p`
 #' @param a_sig2 vector of shape parameters for Inverse Gamma priors on `sig2`
@@ -16,6 +18,7 @@
 #' @return An object of class `stanfit` returned by `rstan::sampling`
 #'
 dte_stan <- function(G, X_g, Z_g, y,
+                     norm_factors,
                      a_p = 1, b_p = 2,
                      a_sig2 = NULL, b_sig2 = NULL,
                      sig2_mu = NULL, sig2_u = NULL, ...) {

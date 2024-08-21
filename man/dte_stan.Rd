@@ -10,6 +10,7 @@ dte_stan(
   X_g,
   Z_g,
   y,
+  norm_factors,
   a_p = 1,
   b_p = 2,
   a_sig2 = NULL,
@@ -27,6 +28,9 @@ dte_stan(
 \item{Z_g}{Random effects design matrix for a single group}
 
 \item{y}{Numeric vector of output values, sorted by group}
+
+\item{norm_factors}{Numeric vector of normalization factors
+for each sample}
 
 \item{a_p}{scale parameter for Beta prior on `p`}
 
