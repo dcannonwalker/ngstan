@@ -21,7 +21,8 @@ dte_stan <- function(G, X_g, Z_g, y,
                      norm_factors,
                      a_p = 1, b_p = 2,
                      a_sig2 = NULL, b_sig2 = NULL,
-                     sig2_mu = NULL, sig2_u = NULL, ...) {
+                     sig2_mu = NULL, sig2_u = NULL,
+                     vb = FALSE, ...) {
     K <- ncol(X_g)
     U <- ncol(Z_g)
     N_g <- length(y) / G
@@ -35,6 +36,10 @@ dte_stan <- function(G, X_g, Z_g, y,
                      a_sig2 = a_sig2, b_sig2 = b_sig2,
                      sig2_mu = sig2_mu,
                      sig2_u = sig2_u)
-    out <- rstan::sampling(stanmodels$dte, data = standata, ...)
+    if (vb == FALSE) {
+        out <- rstan::sampling(stanmodels$dte, data = standata, ...)
+    } else {
+        out <- rstan::vb(stanmodels$dte, data = standata, ...)
+    }
     return(out)
 }
