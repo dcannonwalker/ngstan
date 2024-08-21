@@ -27,7 +27,7 @@ calc_norm_factors <- function(counts, method = "TMM", ref_column = NULL,
                         }
                     }
                     f <- rep_len(NA_real_, ncol(counts))
-                    for (i in ncol(counts)) {
+                    for (i in seq(1, ncol(counts))) {
                         f[i] <- .calc_factor_tmm(
                             obs = counts[, i],
                             ref = counts[, ref_column],

@@ -20,7 +20,16 @@ data(dte)
 dte_simple <- dte[1:100, c(1, 2:10, 20:28)]
 ```
 
-```{r dte_stan}
+```{r prep_data}
+norm_factors <- calc_norm_factors(as.matrix(dte[, c(2:10, 20:28)]))
 
+sample_names <- colnames(dte_simple)[2:19]
+preparation <- rep(c(0, 1), each = 9)
+treatment <- rep(c(rep(0, 4), rep(1, 5)), 2)
+X_g <- model.matrix(~preparation + treatment + preparation:treatment)
+sample <- rep(1:9, 2)
+Z_g <- model.matrix(~0 + as.factor(sample))
+dte_data <- prep_dte_data(counts = dte_simple, sample_names = sample_names,
+                          X_g = X_g, Z_g = Z_g)
 ```
 

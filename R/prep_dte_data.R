@@ -11,7 +11,7 @@
 #' @export
 prep_dte_data <- function(counts, sample_names, X_g, Z_g) {
     G <- nrow(counts)
-    y <- c(t(as.matrix(dte[, sample_names])))
+    y <- c(t(as.matrix(counts[, sample_names])))
     list(
         G = G,
         y = y,

@@ -12,7 +12,7 @@ data {
     real<lower=0> b_sig2[K];
     real<lower=0> sig2_mu[K];
     real<lower=0> sig2_u[U];
-    int<lower=0, upper=1> model_normalization;
+    // int<lower=0, upper=1> model_normalization;
     vector[N_g] norm_factors; // fixed normalization factors
 }
 transformed data {
@@ -20,6 +20,7 @@ transformed data {
     for (g in 1:G) {
         y_g[g] = y[N_g * (g - 1) + 1:N_g * g];
     }
+    vector[N_g] S = norm_factors;
 }
 parameters {
     array[G] vector[K] beta;
@@ -27,7 +28,7 @@ parameters {
     vector[K] sig2;
     real<lower=0, upper=1> p;
     array[G] vector[U] u;
-    vector[N_g * (1 - model_normalization)] S; // normalization factors
+    // vector[N_g * (1 - model_normalization)] S; // normalization factors
 }
 transformed parameters {
     array[G] vector[2] lp;
@@ -47,9 +48,9 @@ transformed parameters {
 
 }
 model {
-    if (model_normalization == 1) {
-        S ~ normal(0, 1);
-    }
+    // if (model_normalization == 1) {
+    //     S ~ normal(0, 1);
+    // }
     mu ~ normal(0, sig2_mu);
     sig2 ~ inv_gamma(a_sig2, b_sig2);
     p ~ beta(a_p, b_p);
