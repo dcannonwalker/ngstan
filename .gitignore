@@ -36,3 +36,8 @@ work_notes
 .DS_Store
 .quarto
 inst/doc
+
+src/stan/**
+!src/stan/**/*.*
+src/stan/**/*.exe
+src/stan/**/*.EXE

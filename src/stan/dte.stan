@@ -3,15 +3,15 @@ data {
     int<lower=1> N_g; // observations per group
     int<lower=1> K; //number of columns in the model matrix X_g
     int<lower=0> U; //number of columns in the random effects matrix Z_g
-    int<lower=0> y[N_g * G]; //response
+    array[N_g * G] int<lower=0> y; //response
     matrix[N_g, K] X_g; // per group fixed effects design
     matrix[N_g, U] Z_g; // per group random effects design
     real<lower=0> a_p;
     real<lower=0> b_p;
-    real<lower=0> a_sig2[K];
-    real<lower=0> b_sig2[K];
-    real<lower=0> sig2_mu[K];
-    real<lower=0> sig2_u[U];
+    array[K] real<lower=0> a_sig2;
+    array[K] real<lower=0> b_sig2;
+    array[K] real<lower=0> sig2_mu;
+    array[U] real<lower=0> sig2_u;
     // int<lower=0, upper=1> model_normalization;
     vector[N_g] norm_factors; // fixed normalization factors
 }

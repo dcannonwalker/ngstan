@@ -32,8 +32,7 @@ Z_g <- model.matrix(~0 + as.factor(sample))
 dte_data <- prep_dte_data(counts = dte_simple, sample_names = sample_names,
                           X_g = X_g, Z_g = Z_g)
 dte_data$norm_factors <- norm_factors
-dte_data$vb = TRUE
-do.call(dte_stan, dte_data)
-
+dte_data$method <- "pathfinder"
+fit <- do.call(ngstan::run_dte_model, dte_data)
 ```
 
