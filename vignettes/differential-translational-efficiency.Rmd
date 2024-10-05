@@ -1,5 +1,5 @@
 ---
-title: "differential-translational-efficiency"
+title: "Differential Translational Efficiency Analysis for RiboSeq Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{differential-translational-efficiency}
@@ -20,6 +20,13 @@ data(dte)
 dte_simple <- dte[1:100, c(1, 2:10, 20:28)]
 ```
 
+# Setup
+
+In this example, we start with a RiboSeq data set where columns represent samples
+and rows represent genes. 
+```{r example_data}
+
+```
 ```{r prep_data}
 norm_factors <- calc_norm_factors(as.matrix(dte[, c(2:10, 20:28)]))
 
