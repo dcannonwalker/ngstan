@@ -1,6 +1,4 @@
-functions {
-    #include poisson_log_lpmf_mixture.stan
-}
+#include poisson_log_lpmf_mixture.stan
 data {
     int<lower=1> G;
     int<lower=1> N_g;
