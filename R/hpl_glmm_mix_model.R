@@ -11,19 +11,22 @@
 #' for each sample
 #' @param a_sig2 vector of shape parameters for Inverse Gamma priors on `sig2`
 #' @param b_sig2 vector of scale parameters for Inverse Gamma priors on `sig2`
-#' @param sig2_mu vector of variances for the Gaussian prior on `mu`
-#' @param sig2_u vector of variances for the Gaussian prior on random effects
 #' @param method One of `c("sampling", "vb", "pathfinder")`
 #' @param ... Named arguments to the `sample()` method of CmdStan model
 #'   objects: <https://mc-stan.org/cmdstanr/reference/model-method-sample.html>
 run_hpl_glmm_mix_model <- function(
-        G, X_g, Z_g, comps, prob, y, run_estimation = 1,
+        method = c("sampling", "vb", "pathfinder"),
+        run_estimation = 0,
+        G, X_g, Z_g, comps, prob,
+        y = NULL,
         a_sig2 = NULL, b_sig2 = NULL,
+        a_sig2_mu = NULL, b_sig2_mu = NULL,
         a_mu_offset = NULL, b_mu_offset = NULL,
         a_sig2_offset = NULL, b_sig2_offset = NULL,
         a_sig2_u = NULL, b_sig2_u = NULL,
-        S = NULL
+        S = NULL, ...
 ) {
+    method <- match.arg(method)
     N_g <- nrow(X_g)
     K <- ncol(X_g)
     U <- ncol(Z_g)
@@ -35,16 +38,26 @@ run_hpl_glmm_mix_model <- function(
     for (i in seq(1, N_mix)) {
         mix_idx[i, ] <- which(apply(comps, 1, function(r) r[which_mix[i]] == 1))
     }
+    if (run_estimation == 0) {
+        y <- y %||% rpois(G * N_g, 10) # allow null y if run_estimation == 0
+    } else {
+        if (is.null(y)) {
+            stop("y cannot be NULL if run_estimation != 0")
+        }
+    }
 
-    hpl_glmm_mix_data <- list(
+    standata <- list(
         G = G, X_g = X_g, Z_g = Z_g,
         N_g = N_g, K = K, U = U,
         comps = comps, N_comps = N_comps, N_mix = N_mix,
         comps_per_mix = N_comps / 2,
         mix_idx = mix_idx, prob = prob,
-        y = y, run_estimation = run_estimation,
+        run_estimation = run_estimation,
+        y = y,
         a_sig2 = a_sig2 %||% rep(10, K),
         b_sig2 = b_sig2 %||% rep(1, K),
+        a_sig2_mu = a_sig2_mu %||% rep(10, K),
+        b_sig2_mu = b_sig2_mu %||% rep(10, K),
         a_mu_offset = a_mu_offset %||% 5,
         b_mu_offset = b_mu_offset %||% 1,
         a_sig2_offset = a_sig2_offset %||% 10,
@@ -53,5 +66,17 @@ run_hpl_glmm_mix_model <- function(
         b_sig2_u = b_sig2_u %||% rep(1, U),
         S = S %||% rep(0, N_g)
     )
+
+    model <- instantiate::stan_package_model(
+        name = "hpl_glmm_mix",
+        package = "ngstan"
+    )
+
+    fit <- switch(method,
+                  sampling = model$sample(data = standata, ...),
+                  vb = model$variational(data = standata, ...),
+                  pathfinder = model$pathfinder(data = standata, ...)
+    )
+    return(fit)
 
 }

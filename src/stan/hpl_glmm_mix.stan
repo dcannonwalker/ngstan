@@ -16,7 +16,8 @@ data {
     array[N_mix, comps_per_mix] int mix_idx;
     array[K] real<lower=0> a_sig2; // shape
     array[K] real<lower=0> b_sig2; // scale
-
+    array[K] real<lower=0> a_sig2_mu; // shape
+    array[K] real<lower=0> b_sig2_mu; // scale
     array[U] real<lower=0> a_sig2_u; // shape
     array[U] real<lower=0> b_sig2_u; // scale
     real a_mu_offset; // location; should probably be positive
@@ -48,6 +49,7 @@ parameters {
     real mu_offset;
     real<lower=0> sig2_offset;
     vector<lower=0>[U] sig2_u;
+    vector<lower=0>[K] sig2_mu;
 }
 transformed parameters {
     array[G] vector[N_comps] lp;
@@ -67,6 +69,7 @@ model {
     log_offset ~ normal(mu_offset, sig2_offset);
     mu_offset ~ normal(a_mu_offset, b_mu_offset);
     sig2_offset ~ inv_gamma(a_sig2_offset, b_sig2_offset);
+    sig2_mu ~ inv_gamma(a_sig2_mu, b_sig2_mu);
     sig2_u ~ inv_gamma(a_sig2_u, b_sig2_u);
     for (g in 1:G) {
         beta[g] ~ normal(mu, sig2);

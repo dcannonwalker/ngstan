@@ -20,7 +20,7 @@ transformed data {
     for (g in 1:G) {
         y_g[g] = y[N_g * (g - 1) + 1:N_g * g];
     }
-    vector[N_g] S = norm_factors;
+    vector[N_g] = = = = = = = = = = = = = = = = S = norm_factors;
 }
 parameters {
     array[G] vector[K] beta;
