@@ -5,7 +5,7 @@
 \title{Fit the hpl_glmm_mix model}
 \usage{
 run_hpl_glmm_mix_model(
-  method = c("sampling", "vb", "pathfinder"),
+  method = c("sample", "vb", "pathfinder"),
   run_estimation = 0,
   G,
   X_g,
@@ -28,7 +28,10 @@ run_hpl_glmm_mix_model(
 )
 }
 \arguments{
-\item{method}{One of `c("sampling", "vb", "pathfinder")`}
+\item{method}{One of `c("sample", "vb", "pathfinder")`}
+
+\item{run_estimation}{one of `c(0, 1)`; if 0, samples from the prior only
+and ignores the data}
 
 \item{G}{Number of groups}
 
@@ -36,11 +39,32 @@ run_hpl_glmm_mix_model(
 
 \item{Z_g}{Random effects design matrix for a single group}
 
+\item{comps}{Matrix encoding bernoulli mixture priors}
+
+\item{prob}{Vector giving the prior probability of each combination of
+bernoulli components, i.e. of each row in `comps`}
+
 \item{y}{Numeric vector of output values, sorted by group}
 
 \item{a_sig2}{vector of shape parameters for Inverse Gamma priors on `sig2`}
 
 \item{b_sig2}{vector of scale parameters for Inverse Gamma priors on `sig2`}
+
+\item{a_sig2_mu}{vector of shape parameters for Inverse Gamma priors on `sig2_mu`}
+
+\item{b_sig2_mu}{vector of scale parameters for Inverse Gamma priors on `sig2_mu`}
+
+\item{a_mu_offset}{vector of shape parameters for Inverse Gamma priors on `mu_offset`}
+
+\item{b_mu_offset}{vector of scale parameters for Inverse Gamma priors on `mu_offset`}
+
+\item{a_sig2_offset}{vector of shape parameters for Inverse Gamma priors on `sig2_offset`}
+
+\item{b_sig2_offset}{vector of scale parameters for Inverse Gamma priors on `sig2_offset`}
+
+\item{a_sig2_u}{vector of shape parameters for Inverse Gamma priors on `sig2_u`}
+
+\item{b_sig2_u}{vector of scale parameters for Inverse Gamma priors on `sig2_u`}
 
 \item{S}{Numeric vector of normalization factors
 for each sample}
@@ -53,9 +77,5 @@ An object of class `CmdStanMCMC`
 }
 \description{
 Fit the hpl_glmm_mix Stan model and return fit object
-}
-\seealso{
-Other models: 
-\code{\link{run_dte_model}()}
 }
 \concept{models}
