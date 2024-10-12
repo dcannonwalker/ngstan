@@ -9,13 +9,26 @@
 #' @param y Numeric vector of output values, sorted by group
 #' @param S Numeric vector of normalization factors
 #' for each sample
+#' @param comps Matrix encoding bernoulli mixture priors
+#' @param prob Vector giving the prior probability of each combination of
+#' bernoulli components, i.e. of each row in `comps`
+#' @param run_estimation one of `c(0, 1)`; if 0, samples from the prior only
+#' and ignores the data
 #' @param a_sig2 vector of shape parameters for Inverse Gamma priors on `sig2`
 #' @param b_sig2 vector of scale parameters for Inverse Gamma priors on `sig2`
-#' @param method One of `c("sampling", "vb", "pathfinder")`
+#' @param a_sig2_mu vector of shape parameters for Inverse Gamma priors on `sig2_mu`
+#' @param b_sig2_mu vector of scale parameters for Inverse Gamma priors on `sig2_mu`
+#' @param a_mu_offset vector of shape parameters for Inverse Gamma priors on `mu_offset`
+#' @param b_mu_offset vector of scale parameters for Inverse Gamma priors on `mu_offset`
+#' @param a_sig2_offset vector of shape parameters for Inverse Gamma priors on `sig2_offset`
+#' @param b_sig2_offset vector of scale parameters for Inverse Gamma priors on `sig2_offset`
+#' @param a_sig2_u vector of shape parameters for Inverse Gamma priors on `sig2_u`
+#' @param b_sig2_u vector of scale parameters for Inverse Gamma priors on `sig2_u`
+#' @param method One of `c("sample", "vb", "pathfinder")`
 #' @param ... Named arguments to the `sample()` method of CmdStan model
 #'   objects: <https://mc-stan.org/cmdstanr/reference/model-method-sample.html>
 run_hpl_glmm_mix_model <- function(
-        method = c("sampling", "vb", "pathfinder"),
+        method = c("sample", "vb", "pathfinder"),
         run_estimation = 0,
         G, X_g, Z_g, comps, prob,
         y = NULL,
@@ -33,7 +46,7 @@ run_hpl_glmm_mix_model <- function(
     N_comps <- nrow(comps)
     which_mix <- sort(unique(unlist(apply(comps, 1, function(r) which(r == 0)))))
     N_mix <- length(which_mix)
-    # comps_per_mix <- N_comps / 2
+    comps_per_mix <- N_comps / 2
     mix_idx <- matrix(nrow = N_mix, ncol = comps_per_mix)
     for (i in seq(1, N_mix)) {
         mix_idx[i, ] <- which(apply(comps, 1, function(r) r[which_mix[i]] == 1))
@@ -73,7 +86,7 @@ run_hpl_glmm_mix_model <- function(
     )
 
     fit <- switch(method,
-                  sampling = model$sample(data = standata, ...),
+                  sample = model$sample(data = standata, ...),
                   vb = model$variational(data = standata, ...),
                   pathfinder = model$pathfinder(data = standata, ...)
     )
