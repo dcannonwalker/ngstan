@@ -1,48 +1,46 @@
 functions {
     vector poisson_log_lpmf_mixture(
-        array[] int y,
-        array[] matrix[,] design_comps,
-        array[] vector all_glmm_pars,
-        array[] vector log_lambda,
-        array[] real prob,
+        array[] int y, // length N_g
+        array[] matrix[,] design_comps, // length N_comps, N_g x (K + U)
+        vector all_glmm_pars, // length K + U
+        real log_offset,
+        vector S,
+        array[] real prob, // length N_comps
         int run_estimation
         ) {
             int n_comps = size(prob);
             vector[n_comps] comps;
             for (i in 1:n_comps) {
-                if (size(log_lambda[i]) != size(y)) {
-                    fatal_error("size(log_lambda[i]) must match size(y)");
-                }
                 comps[i] = prob[i];
                 if (run_estimation == 1) {
                     // comps[i] += poisson_log_lpmf(y | log_lambda[i]);
-                    comps[i] += poisson_log_glm_lpmf(y | design_comps[i], log_offset, all_glmm_pars);
+                    comps[i] += poisson_log_glm_lpmf(y | design_comps[i], S + log_offset, all_glmm_pars);
                     // comps[i] += poisson_log_glm_lupmf(y | design_comps[i], log_offset, all_glmm_pars)
                 }
             }
             return(comps);
         }
     real partial_sum(
-        array[,] int y_slice,
+        array[,] int y_slice, // G x N_g
         int start, int end,
-        int N_comps,
-        array[] real log_offset,
-        array[] matrix[,] X_g_comps,
-        array[] vector beta,
-        matrix[,] Z_g,
-        array[] vector u,
-        vector S
+       // int N_comps,
+        array[] real log_offset, // G
+        array[] matrix[,] design_comps, // N_comps x N_g x (K + U)
+        array[] vector all_glmm_pars // K + U
+        array[] real prob,
+        vector S, // N_g
+        int run_estimation
         ) {
             vector[start:end] partial_vec;
             for (g in start:end) {
                 int idx = end - start + 1
-                for (i in 1:N_comps) {
-                    log_lambda[g, i] = log_offset[g] + X_g_comps[i] * beta[g] + Z_g * u[g] + S;
-                }
-                lp[g] = poisson_log_lpmf_mixture(y_slice[idx], log_lambda[g], prob, run_estimation);
+                lp[g] = poisson_log_lpmf_mixture(
+                    y_slice[idx],
+                    design_comps, all_glmm_pars[g],
+                    log_offset[g], S, prob, run_estimation);
                 lse[g] = log_sum_exp(lp[g]);
             }
-
+            return(sum(lse))
         }
 }
 data {
@@ -100,15 +98,9 @@ parameters {
     vector<lower=0>[K] sig2_mu;
 }
 transformed parameters {
-    array[G] vector[N_comps] lp;
-    array[G] real lse; // log sum of exponents for each group
-    array[G, N_comps] vector[N_g] log_lambda;
+    array[G] vector[K + U] all_glmm_pars;
     for (g in 1:G) {
-        for (i in 1:N_comps) {
-            log_lambda[g, i] = log_offset[g] + X_g_comps[i] * beta[g] + Z_g * u[g] + S;
-        }
-        lp[g] = poisson_log_lpmf_mixture(y_g[g], log_lambda[g], prob, run_estimation);
-        lse[g] = log_sum_exp(lp[g]);
+        all_glmm_pars[g] = append_row(beta[g], u[g]);
     }
 }
 model {
@@ -123,21 +115,22 @@ model {
         beta[g] ~ normal(mu, sig2);
         u[g] ~ normal(0, sig2_u);
     }
-    target += sum(lse);
+    target += reduce_sum(partial_sum, y, grainsize, log_offset,
+    design_comps, all_glmm_pars, prob, S, run_estimation)
 }
-generated quantities {
-    array[G] vector[N_mix] p_dg;
-    for (i in 1:N_mix) {
-        for (g in 1:G) {
-            real numerator = sum(exp(lp[g][mix_idx[i]]));
-            real denominator = sum(exp(lp[g]));
-            p_dg[g][i] = numerator / denominator;
-        }
-    }
-    array[G, N_g] int y_g_sim;
-    array[G] int which_comp;
-    for (g in 1:G) {
-        which_comp[g] = categorical_rng(to_vector(prob));
-        y_g_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
-    }
-}
+// generated quantities {
+//     array[G] vector[N_mix] p_dg;
+//     for (i in 1:N_mix) {
+//         for (g in 1:G) {
+//             real numerator = sum(exp(lp[g][mix_idx[i]]));
+//             real denominator = sum(exp(lp[g]));
+//             p_dg[g][i] = numerator / denominator;
+//         }
+//     }
+//     array[G, N_g] int y_g_sim;
+//     array[G] int which_comp;
+//     for (g in 1:G) {
+//         which_comp[g] = categorical_rng(to_vector(prob));
+//         y_g_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
+//     }
+// }
