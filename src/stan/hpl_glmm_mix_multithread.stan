@@ -139,6 +139,6 @@ generated quantities {
     array[G] int which_comp;
     for (g in 1:G) {
         which_comp[g] = categorical_rng(to_vector(prob));
-        y_g_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
+        y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
     }
 }
