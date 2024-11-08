@@ -41,7 +41,7 @@ functions {
                     y_slice[idx],
                     design_comps, all_glmm_pars[g],
                     log_offset[g], S, prob, run_estimation);
-                lse[g] = log_sum_exp(lp[g]);
+                lse[idx] = log_sum_exp(lp[idx]);
             }
             return(sum(lse));
         }
