@@ -86,7 +86,9 @@ run_hpl_glmm_mix_multithread_model <- function(
 
     model <- instantiate::stan_package_model(
         name = "hpl_glmm_mix_multithread",
-        package = "ngstan"
+        package = "ngstan",
+        compile = TRUE,
+        cpp_options = list(stan_threads = TRUE)
     )
 
     fit <- switch(method,
