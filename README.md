@@ -14,7 +14,7 @@ in addition to the NUTS sampler.
 The `ngstan` package depends on the R package
 [`CmdStanR`](https://mc-stan.org/cmdstanr/) and the command line tool
 [`CmdStan`](https://mc-stan.org/users/interfaces/cmdstan), so it is
-important to follow these stages in order:
+important to follow these steps in order:
 
 1.  Install the R package [`CmdStanR`](https://mc-stan.org/cmdstanr/).
     [`CmdStanR`](https://mc-stan.org/cmdstanr/) is not on CRAN, so the
@@ -23,8 +23,7 @@ important to follow these stages in order:
 2.  Optional: set environment variables `CMDSTAN_INSTALL` and/or
     `CMDSTAN` to manage the
     [`CmdStan`](https://mc-stan.org/users/interfaces/cmdstan)
-    installation. See the “Administering CmdStan” section below for
-    details.
+    installation. 
 3.  Install `ngstan` using the R command below.
 
 | Type        | Source     | Command                                                                     |
