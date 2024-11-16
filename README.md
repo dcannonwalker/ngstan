@@ -5,7 +5,7 @@
 analysis of Next Generation Sequencing (NGS) data. `ngstan` uses the `cmdstanr`
 and `instantiate` packages to provide pre-compiled Stan models that can be fit
 using a variety of sampling algorithms available with `cmdstanr` (e.g. ADVI and Pathfinder), 
-in addition the the NUTS sampler. 
+in addition to the NUTS sampler. 
 
 # Documentation
 
