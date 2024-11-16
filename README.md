@@ -25,7 +25,7 @@ important to follow these stages in order:
     [`CmdStan`](https://mc-stan.org/users/interfaces/cmdstan)
     installation. See the “Administering CmdStan” section below for
     details.
-3.  Install `instantiate` using one of the R commands below.
+3.  Install `ngstan` using the R command below.
 
 | Type        | Source     | Command                                                                     |
 |-------------|------------|-----------------------------------------------------------------------------|
