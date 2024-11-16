@@ -1,5 +1,5 @@
 
-# ngstan: Stan models for Next Generation Sequencing data
+# ngstan: stan models for next generation sequencing data
 
 `{ngstan}` provides Stan implementations of statistical models for the 
 analysis of Next Generation Sequencing (NGS) data. `{ngstan}` uses the `cmdstanr`
