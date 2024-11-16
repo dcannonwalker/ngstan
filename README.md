@@ -31,6 +31,4 @@ important to follow these stages in order:
 |-------------|------------|-----------------------------------------------------------------------------|
 | Development | GitHub     | `remotes::install_github("dcannonwalker/ngstan")`                            |
 
-# Code of Conduct
-
 # Citation
