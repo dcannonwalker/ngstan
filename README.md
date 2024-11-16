@@ -1,8 +1,8 @@
 
 # ngstan: stan models for next generation sequencing data
 
-`{ngstan}` provides Stan implementations of statistical models for the 
-analysis of Next Generation Sequencing (NGS) data. `{ngstan}` uses the `cmdstanr`
+`ngstan` provides Stan implementations of statistical models for the 
+analysis of Next Generation Sequencing (NGS) data. `ngstan` uses the `cmdstanr`
 and `instantiate` packages to provide pre-compiled Stan models that can be fit
 using a variety of sampling algorithms available with `cmdstanr` (e.g. ADVI and Pathfinder), 
 in addition the the NUTS sampler. 
