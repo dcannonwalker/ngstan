@@ -60,7 +60,7 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     mix_idx[i, ] <- which(apply(comps, 1, function(r) r[which_mix[i]] == 1))
   }
   if (run_estimation == 0) {
-    y <- y %||% rpois(G * N_g, 10) # allow null y if run_estimation == 0
+    y <- y %||% rpois(G * N_g, 10) # nolint
   } else {
     if (is.null(y)) {
       stop("y cannot be NULL if run_estimation != 0")
@@ -75,17 +75,17 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     mix_idx = mix_idx, prob = prob,
     run_estimation = run_estimation,
     y = y,
-    a_sig2 = a_sig2 %||% rep(10, K),
-    b_sig2 = b_sig2 %||% rep(1, K),
-    a_sig2_mu = a_sig2_mu %||% rep(10, K),
-    b_sig2_mu = b_sig2_mu %||% rep(10, K),
-    a_mu_offset = a_mu_offset %||% 5,
-    b_mu_offset = b_mu_offset %||% 1,
-    a_sig2_offset = a_sig2_offset %||% 10,
-    b_sig2_offset = b_sig2_offset %||% 1,
-    a_sig2_u = a_sig2_u %||% rep(10, U),
-    b_sig2_u = b_sig2_u %||% rep(1, U),
-    S = S %||% rep(0, N_g)
+    a_sig2 = a_sig2 %||% rep(10, K), # nolint
+    b_sig2 = b_sig2 %||% rep(1, K), # nolint
+    a_sig2_mu = a_sig2_mu %||% rep(10, K), # nolint
+    b_sig2_mu = b_sig2_mu %||% rep(10, K), # nolint
+    a_mu_offset = a_mu_offset %||% 5, # nolint
+    b_mu_offset = b_mu_offset %||% 1, # nolint
+    a_sig2_offset = a_sig2_offset %||% 10, # nolint
+    b_sig2_offset = b_sig2_offset %||% 1, # nolint
+    a_sig2_u = a_sig2_u %||% rep(10, U), # nolint
+    b_sig2_u = b_sig2_u %||% rep(1, U), # nolint
+    S = S %||% rep(0, N_g) # nolint
   )
 
   model <- instantiate::stan_package_model(
