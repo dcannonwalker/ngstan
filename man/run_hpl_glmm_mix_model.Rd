@@ -46,25 +46,35 @@ bernoulli components, i.e. of each row in `comps`}
 
 \item{y}{Numeric vector of output values, sorted by group}
 
-\item{a_sig2}{vector of shape parameters for Inverse Gamma priors on `sig2`}
+\item{a_sig2}{vector of shape parameters
+for Inverse Gamma priors on `sig2`}
 
-\item{b_sig2}{vector of scale parameters for Inverse Gamma priors on `sig2`}
+\item{b_sig2}{vector of scale parameters
+for Inverse Gamma priors on `sig2`}
 
-\item{a_sig2_mu}{vector of shape parameters for Inverse Gamma priors on `sig2_mu`}
+\item{a_sig2_mu}{vector of shape parameters
+for Inverse Gamma priors on `sig2_mu`}
 
-\item{b_sig2_mu}{vector of scale parameters for Inverse Gamma priors on `sig2_mu`}
+\item{b_sig2_mu}{vector of scale parameters
+for Inverse Gamma priors on `sig2_mu`}
 
-\item{a_mu_offset}{vector of shape parameters for Inverse Gamma priors on `mu_offset`}
+\item{a_mu_offset}{vector of shape parameters
+for Inverse Gamma priors on `mu_offset`}
 
-\item{b_mu_offset}{vector of scale parameters for Inverse Gamma priors on `mu_offset`}
+\item{b_mu_offset}{vector of scale parameters
+for Inverse Gamma priors on `mu_offset`}
 
-\item{a_sig2_offset}{vector of shape parameters for Inverse Gamma priors on `sig2_offset`}
+\item{a_sig2_offset}{vector of shape parameters
+for Inverse Gamma priors on `sig2_offset`}
 
-\item{b_sig2_offset}{vector of scale parameters for Inverse Gamma priors on `sig2_offset`}
+\item{b_sig2_offset}{vector of scale parameters
+for Inverse Gamma priors on `sig2_offset`}
 
-\item{a_sig2_u}{vector of shape parameters for Inverse Gamma priors on `sig2_u`}
+\item{a_sig2_u}{vector of shape parameters
+for Inverse Gamma priors on `sig2_u`}
 
-\item{b_sig2_u}{vector of scale parameters for Inverse Gamma priors on `sig2_u`}
+\item{b_sig2_u}{vector of scale parameters
+for Inverse Gamma priors on `sig2_u`}
 
 \item{S}{Numeric vector of normalization factors
 for each sample}
@@ -80,6 +90,6 @@ Fit the hpl_glmm_mix Stan model and return fit object
 }
 \seealso{
 Other models: 
-\code{\link{run_hpl_glmm_mix_multithread_model}()}
+\code{\link{run_hpl_glmm_mix_mt_model}()}
 }
 \concept{models}
