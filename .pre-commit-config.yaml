@@ -9,7 +9,9 @@ repos:
     -   id: roxygenize
         # roxygen requires loading pkg -> add dependencies from DESCRIPTION
         additional_dependencies:
+        -    callr
         -    stan-dev/cmdstanr
+        -    fs
         -    instantiate
         -    usethis
     # codemeta must be above use-tidy-description when both are used
