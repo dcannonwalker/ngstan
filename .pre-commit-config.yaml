@@ -13,6 +13,7 @@ repos:
         -    stan-dev/cmdstanr
         -    fs
         -    instantiate
+        -    r-lib/pak
         -    usethis
     # codemeta must be above use-tidy-description when both are used
     # -   id: codemeta-description-updated
