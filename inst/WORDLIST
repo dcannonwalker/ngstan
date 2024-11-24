@@ -3,6 +3,7 @@ Affero
 Assignees
 bernoulli
 bioproject
+callr
 ci
 cmdstan
 CmdStan
@@ -15,6 +16,7 @@ dg
 dte
 env
 fi
+fs
 github
 glm
 glmm
