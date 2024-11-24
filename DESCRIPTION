@@ -26,5 +26,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-Remotes: stan-dev/cmdstanr,
-  r-lib/pak
+Remotes: stan-dev/cmdstanr
+ 
