@@ -102,6 +102,9 @@
       "Version": "0.8.1",
       "Source": "Repository",
       "Repository": "https://stan-dev.r-universe.dev",
+      "RemoteUrl": "https://github.com/stan-dev/cmdstanr",
+      "RemoteRef": "v0.8.1",
+      "RemoteSha": "02259ef7aa2a8b1c8de2fa3fc42a9feafd789288",
       "Requirements": [
         "R",
         "R6",
