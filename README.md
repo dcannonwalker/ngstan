@@ -34,4 +34,6 @@ important to follow these steps in order:
 |-------------|------------|-----------------------------------------------------------------------------|
 | Development | GitHub     | `remotes::install_github("dcannonwalker/ngstan")`                            |
 
+<!---
 # Citation
+-->
