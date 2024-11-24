@@ -1,0 +1,4 @@
+linters: linters_with_defaults(
+    object_name_linter(styles = c("UPPERCASE", "SNAKE_CASE", "snake_case", "symbols"),
+                       regexes = c("X_*", "N_*", "Z_*"))
+  )
