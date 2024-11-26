@@ -13,6 +13,7 @@ Imports:
     cmdstanr,
     fs,
     instantiate,
+    pak,
     usethis
 Additional_repositories:
   https://mc-stan.org/r-packages/
@@ -25,3 +26,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Remotes: stan-dev/cmdstanr
+ 

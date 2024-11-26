@@ -26,6 +26,7 @@ jobs:
         with:
           extra-packages: any::covr, any::xml2
           needs: coverage
+          pak-version: repo
 
       - name: Test coverage
         run: |
