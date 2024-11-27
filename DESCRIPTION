@@ -24,6 +24,7 @@ RoxygenNote: 7.3.2
 License: GPL (>= 3)
 Suggests: 
     knitr,
+    posterior,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
