@@ -40,5 +40,5 @@ sample_args$seed <- 2
 
 # test that model fits simulated data without error
 testthat("model fits without error", {
-  sample_fit <- do.call(run_hpl_glmm_mix_model, args = sample_args)
+  expect_no_error(do.call(run_hpl_glmm_mix_model, args = sample_args))
 })
