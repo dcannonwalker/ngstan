@@ -7,7 +7,7 @@ Maintainer: David Cannon Walker <david.cannon.walker@gmail.com>
 Description: Stan models for applications in NGS data, 
   including differential translational efficiency and differential expression analyses. 
 Depends:
-    R (>= 4.3.1)
+    R (>= 4.0.0)
 Imports:
     callr,
     cmdstanr,

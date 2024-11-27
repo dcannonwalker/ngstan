@@ -1,6 +1,7 @@
 <!-- badges: start -->
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/dcannonwalker/ngstan/main.svg)](https://results.pre-commit.ci/latest/github/dcannonwalker/ngstan/main)
 [![Codecov test coverage](https://codecov.io/gh/dcannonwalker/ngstan/graph/badge.svg)](https://app.codecov.io/gh/dcannonwalker/ngstan)
+[![R-CMD-check](https://github.com/dcannonwalker/ngstan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dcannonwalker/ngstan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # ngstan: stan models for next generation sequencing data
