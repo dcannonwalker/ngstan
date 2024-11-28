@@ -15,7 +15,7 @@ test_that("hpl_glmm_mix simulates data with the expected structure", {
 # fit the model to the simulated data set ----
 
 # test that model fits simulated data without error
-testthat("model fits without error", {
+test_that("model fits without error", {
   skip_if_not(found_cmdstan)
   expect_no_error(do.call(run_hpl_glmm_mix_model, args = sample_args))
 })
