@@ -25,6 +25,7 @@ dte_simple <- dte[1:100, c(1, 2:10, 20:28)]
 In this example, we start with a RiboSeq data set where columns represent samples
 and rows represent genes. 
 ```{r example_data}
+# add example data
 
 ```
 ```{r prep_data}
