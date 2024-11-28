@@ -2,7 +2,9 @@ ADVI
 Affero
 Assignees
 bernoulli
+bioconductor
 bioproject
+calcNormFactors
 callr
 ci
 CMD
@@ -16,6 +18,7 @@ david
 dev
 dg
 dte
+edgeR
 env
 fi
 fs
