@@ -1,4 +1,5 @@
 # setup args ----
+cmdstanr::set_cmdstan_path()
 args <- list(
   G = 5,
   comps = rbind(1, c(1, 1, 0)),
