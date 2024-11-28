@@ -1,5 +1,10 @@
+cmdstan_version <- try(cmdstanr::cmdstan_version(), silent = TRUE)
+found_cmdstan <- inherits(cmdstan_version, "try-error")
+test_that("test skips if no cmdstan install on system", {
+  skip_if_not(found_cmdstan)
+})
+
 # setup args ----
-cmdstanr::set_cmdstan_path()
 args <- list(
   G = 5,
   comps = rbind(1, c(1, 1, 0)),
@@ -16,16 +21,9 @@ args <- list(
   seed = 1
 )
 
-# simulate from the model and extract one draw ----
-sim <- do.call(ngstan::run_hpl_glmm_mix_model, args = args)
-draws <- sim$draws()
-y_sim <- posterior::extract_variable_array(draws, "y_g_sim")
-which_comp <- posterior::extract_variable_array(draws, "which_comp")
-y_sim_single <- y_sim[1, 1, , ]
-which_comp_single <- which_comp[1, 1, ]
-
 # test that simulated response has expected structure ----
 test_that("hpl_glmm_mix simulates data with the expected structure", {
+  skip_if_not(found_cmdstan)
   expect_equal(dim(y_sim_single), c(args$G, nrow(args$X_g)))
 })
 
@@ -41,5 +39,6 @@ sample_args$seed <- 2
 
 # test that model fits simulated data without error
 testthat("model fits without error", {
+  skip_if_not(found_cmdstan)
   expect_no_error(do.call(run_hpl_glmm_mix_model, args = sample_args))
 })
