@@ -26,7 +26,6 @@ In this example, we start with a RiboSeq data set where columns represent sample
 and rows represent genes. 
 ```{r example_data}
 # add example data
-
 ```
 ```{r prep_data}
 norm_factors <- calc_norm_factors(as.matrix(dte[, c(2:10, 20:28)]))
@@ -34,13 +33,14 @@ norm_factors <- calc_norm_factors(as.matrix(dte[, c(2:10, 20:28)]))
 sample_names <- colnames(dte_simple)[2:19]
 preparation <- rep(c(0, 1), each = 9)
 treatment <- rep(c(rep(0, 4), rep(1, 5)), 2)
-X_g <- model.matrix(~preparation + treatment + preparation:treatment)
+X_g <- model.matrix(~ preparation + treatment + preparation:treatment)
 sample <- rep(1:9, 2)
-Z_g <- model.matrix(~0 + as.factor(sample))
-dte_data <- prep_dte_data(counts = dte_simple, sample_names = sample_names,
-                          X_g = X_g, Z_g = Z_g)
+Z_g <- model.matrix(~ 0 + as.factor(sample))
+dte_data <- prep_dte_data(
+  counts = dte_simple, sample_names = sample_names,
+  X_g = X_g, Z_g = Z_g
+)
 dte_data$norm_factors <- norm_factors
 dte_data$method <- "pathfinder"
 fit <- do.call(ngstan::run_dte_model, dte_data)
 ```
-

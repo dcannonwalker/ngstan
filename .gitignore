@@ -44,3 +44,7 @@ src/stan/**/*.EXE
 
 # working notes
 todo
+next_*
+
+# scratch
+scratch
