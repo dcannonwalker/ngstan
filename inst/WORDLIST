@@ -2,6 +2,7 @@ ADVI
 Affero
 Assignees
 bernoulli
+bioconductor
 bioproject
 callr
 ci
@@ -16,6 +17,7 @@ david
 dev
 dg
 dte
+edgeR
 env
 fi
 fs
@@ -46,7 +48,9 @@ nih
 nlm
 noncommercially
 NONINFRINGEMENT
+normfactors
 pak
+PARAM
 poisson
 pre
 PRJNA

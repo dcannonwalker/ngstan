@@ -30,7 +30,8 @@ data {
     matrix[N_g, K] X_g;
     matrix[N_g, U] Z_g;
     array[N_g * G] int<lower=0> y;
-    vector[N_g] S; // fixed sample specific normalization factors, log scale
+    int<lower=0, upper=1> normfactors_known; // fixed normalization factors?
+    vector[normfactors_known ? N_g : 0] S_DATA;
     int<lower=0> N_mix;
     int<lower=1> N_comps;
     array[N_comps] row_vector[K] comps;
@@ -73,11 +74,18 @@ parameters {
     real<lower=0> sig2_offset;
     vector<lower=0>[U] sig2_u;
     vector<lower=0>[K] sig2_mu;
+    vector[normfactors_known ? 0 : N_g] S_PARAM;
 }
 transformed parameters {
     array[G] vector[N_comps] lp;
     array[G] real lse; // log sum of exponents for each group
     array[G, N_comps] vector[N_g] log_lambda;
+    vector[N_g] S;
+    if (normfactors_known) {
+        S = S_DATA;
+    } else {
+        S = S_PARAM;
+    }
     for (g in 1:G) {
         for (i in 1:N_comps) {
             log_lambda[g, i] = log_offset[g] + X_g_comps[i] * beta[g] + Z_g * u[g] + S;
@@ -94,6 +102,9 @@ model {
     sig2_offset ~ inv_gamma(a_sig2_offset, b_sig2_offset);
     sig2_mu ~ inv_gamma(a_sig2_mu, b_sig2_mu);
     sig2_u ~ inv_gamma(a_sig2_u, b_sig2_u);
+    if (!normfactors_known) {
+        S_PARAM ~ normal(0, 1);
+    }
     for (g in 1:G) {
         beta[g] ~ normal(mu, sig2);
         u[g] ~ normal(0, sig2_u);

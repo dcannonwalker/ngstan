@@ -54,7 +54,8 @@ data {
     matrix[N_g, K] X_g;
     matrix[N_g, U] Z_g;
     array[G, N_g] int<lower=0> y;
-    vector[N_g] S; // fixed sample specific normalization factors, log scale
+    int<lower=0, upper=1> normfactors_known; // fixed normalization factors?
+    vector[normfactors_known ? N_g : 0] S_DATA;
     int<lower=0> N_mix;
     int<lower=1> N_comps;
     array[N_comps] row_vector[K] comps;
@@ -96,9 +97,16 @@ parameters {
     real<lower=0> sig2_offset;
     vector<lower=0>[U] sig2_u;
     vector<lower=0>[K] sig2_mu;
+    vector[normfactors_known ? 0 : N_g] S_PARAM;
 }
 transformed parameters {
     array[G] vector[K + U] all_glmm_pars;
+    vector[N_g] S;
+    if (normfactors_known) {
+        S = S_DATA;
+    } else {
+        S = S_PARAM;
+    }
     for (g in 1:G) {
         all_glmm_pars[g] = append_row(beta[g], u[g]);
     }
