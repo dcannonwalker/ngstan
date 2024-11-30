@@ -23,7 +23,8 @@ run_hpl_glmm_mix_model(
   b_sig2_offset = NULL,
   a_sig2_u = NULL,
   b_sig2_u = NULL,
-  S = NULL,
+  normfactors_known = FALSE,
+  S_DATA = NULL,
   ...
 )
 }
@@ -76,8 +77,13 @@ for Inverse Gamma priors on `sig2_u`}
 \item{b_sig2_u}{vector of scale parameters
 for Inverse Gamma priors on `sig2_u`}
 
-\item{S}{Numeric vector of normalization factors
-for each sample}
+\item{normfactors_known}{Use fixed normalization factors extrinsic to
+the model?}
+
+\item{S_DATA}{Numeric vector of normalization factors
+for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
+normalization factors will be estimated by the `TMM` method as
+described in the `{edgeR}` package}
 
 \item{...}{Named arguments to the `sample()` method of CmdStan model
 objects: <https://mc-stan.org/cmdstanr/reference/model-method-sample.html>}
