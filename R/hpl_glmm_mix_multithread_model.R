@@ -7,8 +7,12 @@
 #' @param X_g Fixed effects design matrix for a single group
 #' @param Z_g Random effects design matrix for a single group
 #' @param y Numeric vector of output values, sorted by group
-#' @param S Numeric vector of normalization factors
-#' for each sample
+#' @param normfactors_known Use fixed normalization factors extrinsic to
+#' the model?
+#' @param S_DATA Numeric vector of normalization factors
+#' for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
+#' normalization factors will be estimated by the `TMM` method as
+#' described in the `{edgeR}` package
 #' @param comps Matrix encoding bernoulli mixture priors
 #' @param prob Vector giving the prior probability of each combination of
 #' bernoulli components, i.e. of each row in `comps`
@@ -49,7 +53,8 @@ run_hpl_glmm_mix_mt_model <- function(method = c("sample", "vb", "pathfinder"),
                                       a_sig2_offset = NULL,
                                       b_sig2_offset = NULL,
                                       a_sig2_u = NULL, b_sig2_u = NULL,
-                                      S = NULL, ...) {
+                                      normfactors_known = FALSE,
+                                      S_DATA = NULL, ...) {
   method <- match.arg(method)
   N_g <- nrow(X_g)
   K <- ncol(X_g)
@@ -72,6 +77,12 @@ run_hpl_glmm_mix_mt_model <- function(method = c("sample", "vb", "pathfinder"),
       stop("y cannot be NULL if run_estimation != 0")
     }
   }
+  if (normfactors_known) {
+    # TODO: use calc_norm_factors() instead
+    S_DATA <- S_DATA %||% rep(0, N_g) # nolint
+  } else {
+    S_DATA <- numeric(0)
+  }
 
   standata <- list(
     G = G, X_g = X_g, Z_g = Z_g,
@@ -92,7 +103,8 @@ run_hpl_glmm_mix_mt_model <- function(method = c("sample", "vb", "pathfinder"),
     b_sig2_offset = b_sig2_offset %||% 1, # nolint
     a_sig2_u = a_sig2_u %||% rep(10, U), # nolint
     b_sig2_u = b_sig2_u %||% rep(1, U), # nolint
-    S = S %||% rep(0, N_g) # nolint
+    normfactors_known = normfactors_known,
+    S_DATA = S_DATA
   )
 
   model <- instantiate::stan_package_model(
