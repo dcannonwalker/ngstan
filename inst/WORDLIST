@@ -12,6 +12,7 @@ CmdStan
 CmdStanMCMC
 cmdstanr
 Codecov
+Config
 copyrightable
 david
 dev
@@ -68,6 +69,7 @@ sublicenses
 Sublicensing
 SystemRequirements
 TMM
+testthat
 translational
 Translational
 usethis

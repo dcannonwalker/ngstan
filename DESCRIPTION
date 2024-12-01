@@ -24,7 +24,9 @@ RoxygenNote: 7.3.2
 License: GPL (>= 3)
 Suggests: 
     knitr,
-    rmarkdown
+    posterior,
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Remotes: stan-dev/cmdstanr
- 
+Config/testthat/edition: 3
