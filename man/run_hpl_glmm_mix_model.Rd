@@ -24,6 +24,8 @@ run_hpl_glmm_mix_model(
   a_sig2_u = NULL,
   b_sig2_u = NULL,
   normfactors_known = FALSE,
+  A_S = NULL,
+  B_S = NULL,
   S_DATA = NULL,
   ...
 )

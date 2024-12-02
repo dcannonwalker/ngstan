@@ -51,6 +51,7 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
                                    a_sig2_offset = NULL, b_sig2_offset = NULL,
                                    a_sig2_u = NULL, b_sig2_u = NULL,
                                    normfactors_known = FALSE,
+                                   A_S = NULL, B_S = NULL,
                                    S_DATA = NULL, ...) {
   method <- match.arg(method)
   N_g <- nrow(X_g)
@@ -74,8 +75,12 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
   if (normfactors_known) {
     # TODO: use calc_norm_factors() instead
     S_DATA <- S_DATA %||% rep(0, N_g) # nolint
+    A_S <- A_S %||% 0 # nolint
+    B_S <- B_S %||% 0.1 # nolint
   } else {
     S_DATA <- numeric(0)
+    A_S <- numeric(0)
+    B_S <- numeric(0)
   }
 
   standata <- list(
@@ -97,7 +102,9 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     a_sig2_u = a_sig2_u %||% rep(10, U), # nolint
     b_sig2_u = b_sig2_u %||% rep(1, U), # nolint
     normfactors_known = normfactors_known,
-    S_DATA = S_DATA
+    S_DATA = S_DATA,
+    A_S = A_S,
+    B_S = B_S
   )
 
   model <- instantiate::stan_package_model(
