@@ -4,7 +4,7 @@
 [![R-CMD-check](https://github.com/dcannonwalker/ngstan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dcannonwalker/ngstan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-# ngstan: stan models for next generation sequencing data
+# ngstan: stan models for sequencing data
 
 `ngstan` provides Stan implementations of statistical models for the 
 analysis of Next Generation Sequencing (NGS) data. `ngstan` uses the `cmdstanr`
