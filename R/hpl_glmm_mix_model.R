@@ -13,6 +13,8 @@
 #' for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
 #' normalization factors will be estimated by the `TMM` method as
 #' described in the `{edgeR}` package
+#' @param A_S location parameter for `S_PARAM` if `!normfactors_known`
+#' @param B_S scale parameter for `S_PARAM` if `!normfactors_known`
 #' @param comps Matrix encoding bernoulli mixture priors
 #' @param prob Vector giving the prior probability of each combination of
 #' bernoulli components, i.e. of each row in `comps`
@@ -75,12 +77,12 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
   if (normfactors_known) {
     # TODO: use calc_norm_factors() instead
     S_DATA <- S_DATA %||% rep(0, N_g) # nolint
-    A_S <- A_S %||% 0 # nolint
-    B_S <- B_S %||% 0.1 # nolint
-  } else {
-    S_DATA <- numeric(0)
     A_S <- numeric(0)
     B_S <- numeric(0)
+  } else {
+    S_DATA <- numeric(0)
+    A_S <- A_S %||% 0 # nolint
+    B_S <- B_S %||% 0.1 # nolint
   }
 
   standata <- list(

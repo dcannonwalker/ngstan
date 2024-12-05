@@ -82,6 +82,10 @@ for Inverse Gamma priors on `sig2_u`}
 \item{normfactors_known}{Use fixed normalization factors extrinsic to
 the model?}
 
+\item{A_S}{location parameter for `S_PARAM` if `!normfactors_known`}
+
+\item{B_S}{scale parameter for `S_PARAM` if `!normfactors_known`}
+
 \item{S_DATA}{Numeric vector of normalization factors
 for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
 normalization factors will be estimated by the `TMM` method as
