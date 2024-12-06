@@ -15,6 +15,7 @@ Codecov
 Config
 copyrightable
 david
+dcannonwalker
 dev
 dg
 dte
@@ -32,6 +33,7 @@ hpl
 https
 idx
 inv
+io
 knitr
 LazyData
 licensors
@@ -68,8 +70,8 @@ sublicense
 sublicenses
 Sublicensing
 SystemRequirements
-TMM
 testthat
+TMM
 translational
 Translational
 usethis
