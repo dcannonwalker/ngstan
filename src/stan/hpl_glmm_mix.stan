@@ -32,6 +32,8 @@ data {
     array[N_g * G] int<lower=0> y;
     int<lower=0, upper=1> normfactors_known; // fixed normalization factors?
     vector[normfactors_known ? N_g : 0] S_DATA;
+    array[normfactors_known ? 0 : 1] real A_S;
+    array[normfactors_known ? 0 : 1] real<lower=0> B_S;
     int<lower=0> N_mix;
     int<lower=1> N_comps;
     array[N_comps] row_vector[K] comps;
@@ -103,7 +105,7 @@ model {
     sig2_mu ~ inv_gamma(a_sig2_mu, b_sig2_mu);
     sig2_u ~ inv_gamma(a_sig2_u, b_sig2_u);
     if (!normfactors_known) {
-        S_PARAM ~ normal(0, 1);
+        S_PARAM ~ normal(A_S, B_S);
     }
     for (g in 1:G) {
         beta[g] ~ normal(mu, sig2);

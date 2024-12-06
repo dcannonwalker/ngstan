@@ -25,6 +25,8 @@ run_hpl_glmm_mix_mt_model(
   a_sig2_u = NULL,
   b_sig2_u = NULL,
   normfactors_known = FALSE,
+  A_S = NULL,
+  B_S = NULL,
   S_DATA = NULL,
   ...
 )
@@ -82,6 +84,10 @@ for Inverse Gamma priors on `sig2_u`}
 
 \item{normfactors_known}{Use fixed normalization factors extrinsic to
 the model?}
+
+\item{A_S}{location parameter for `S_PARAM` if `!normfactors_known`}
+
+\item{B_S}{scale parameter for `S_PARAM` if `!normfactors_known`}
 
 \item{S_DATA}{Numeric vector of normalization factors
 for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
