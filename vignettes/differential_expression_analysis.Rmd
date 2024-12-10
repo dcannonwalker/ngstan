@@ -1,0 +1,26 @@
+---
+title: "Differential Expression Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Differential Expression Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ngstan)
+```
+
+In this vignette, we'll replicate a portion of the 
+[example differential expression analysis](https://github.com/hbctraining/Training-modules/blob/master/archive/DESeq2/lessons/03_DEG_deseq2.md)
+from the Harvard Chan Bioinformatics Core, using data from [Kenny, et al.](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50499)
+
+```{r}
+```

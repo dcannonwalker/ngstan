@@ -49,3 +49,6 @@ next_*
 # scratch
 scratch
 docs
+
+# raw data files
+*.tsv

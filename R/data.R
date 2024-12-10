@@ -12,3 +12,17 @@
 #' }
 #' @source <https://www.ncbi.nlm.nih.gov/bioproject/PRJNA950066>
 "dte"
+
+#' Gene Expression for MOV10 data
+#'
+#' Counts per gene
+#'
+#' @format ## `mov10`
+#' A data frame with 14,675 rows and 9 columns:
+#' \describe{
+#'  \item{geneid}{Gene identifier}}
+#'  \item{low_..., high_..., control_...}{Gene expression counts
+#'  for each sample}
+#' }
+#' @source <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50499>
+"mov10"

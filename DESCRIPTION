@@ -25,6 +25,7 @@ License: GPL (>= 3)
 Suggests: 
     knitr,
     posterior,
+    readr,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
