@@ -16,11 +16,88 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(ngstan)
+library(posterior)
 ```
+
+# Introduction 
 
 In this vignette, we'll replicate a portion of the 
 [example differential expression analysis](https://github.com/hbctraining/Training-modules/blob/master/archive/DESeq2/lessons/03_DEG_deseq2.md)
-from the Harvard Chan Bioinformatics Core, using data from [Kenny, et al.](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50499)
+from the Harvard Chan Bioinformatics Core, using data from [Kenny, et al.](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50499). The package
+comes with a filtered version of this data set 
+(genes that average less than 2 counts per million across samples are filtered out), 
+called `mov10`. 
 
 ```{r}
+head(mov10)
+```
+
+Below, we'll set up a differential expression analysis that compares
+the Mov10 Overexpression samples (`high_1`, etc.) to the control samples 
+(`control_1`, etc.). 
+
+# Preparing the model inputs
+
+## Specifying the experimental design
+
+We represent the experimental design as a model matrix. Since we're focusing
+on a single treatment condition (Mov10 Overexpression), this is just a 
+two-column matrix.
+
+```{r}
+# the first three samples are in the treatment condition
+mov10_overexpression <- c(1, 1, 1, 0, 0, 0)
+X_g <- model.matrix(~mov10_overexpression)
+print(X_g)
+```
+
+
+## Identifying sharp nulls
+
+If we want to test sharp null hypotheses (i.e. there is literally 
+no difference in 
+expression between treatment and control for gene $g$), we need to identify the
+model parameters that are associated with the sharp null hypotheses so that 
+the model uses a mixture prior for those parameters. 
+
+We do this with an indicator vector: 
+
+```{r}
+use_mixture_prior <- c(0, 1)
+```
+
+The order corresponds to the order of columns in the model matrix. We are not 
+interested in testing whether or not the log-scale intercept is exactly 0, so
+the first element of `use_mixture_prior` is 0 - the model will not use a mixture
+prior for the intercept. Since we would like to test
+$$
+H_0^g: \text{there is no difference in expression level between treatment
+and control for gene } g,
+$$
+we use a mixture prior for the parameter associated with the second column of 
+the model matrix - the parameter that represents the difference in (log) 
+expression level between treatment and control. 
+
+## Arguments list
+
+```{r}
+args <- list(
+  y = mov10[, 2:ncol(mov10)], # don't want geneid
+  G = nrow(mov10), # number of genes / tags
+  X_g = X_g,
+  use_mixture_prior = use_mixture_prior
+)
+```
+
+# Running the model
+
+```{r eval=FALSE}
+fit <- do.call(run_hpl_glmm_mix_model, args)
+```
+
+
+# Analyzing the model output
+
+```{r eval=FALSE}
+draws <- fit$draws()
 ```

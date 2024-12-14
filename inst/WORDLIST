@@ -54,6 +54,7 @@ mc
 md
 MERCHANTABILITY
 MOV
+Mov
 multithread
 ncbi
 NGS
@@ -64,6 +65,7 @@ nolint
 noncommercially
 NONINFRINGEMENT
 normfactors
+Overexpression
 pak
 PARAM
 poisson
