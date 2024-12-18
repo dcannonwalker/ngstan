@@ -91,6 +91,12 @@ args <- list(
 
 # Running the model
 
+As an aside, this model is huge and will take a long time to sample. 
+If you have access to a computing cluster, I would recommend setting up
+a model fitting and analysis pipeline to run on your cluster. See the 
+vignette `"Computational costs"` for more information about how to minimize
+model sampling time and how to use the alternatives to MCMC sampling. 
+
 ```{r eval=FALSE}
 fit <- do.call(run_hpl_glmm_mix_model, args)
 ```
