@@ -13,3 +13,16 @@ build_mixture_indicator <- function(x) {
   }
   as.matrix(expand.grid(x_list))
 }
+
+#' Build the set of mixture combination prior probabilities
+#'
+#' @param x A vector of probabilities
+#' @param y A matrix with each row representing a combination of
+#' draws from binary random variables
+build_mixture_probabilities <- function(x, y) {
+  apply(
+    y, 1, function(r) {
+      prod(r * x + abs(1 - r) * (1 - x))
+    }
+  )
+}
