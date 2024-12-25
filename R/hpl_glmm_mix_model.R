@@ -54,6 +54,8 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
                                    a_sig2_offset = NULL, b_sig2_offset = NULL,
                                    a_sig2_u = NULL, b_sig2_u = NULL,
                                    normfactors_known = FALSE,
+                                   use_neg_binomial_response = FALSE,
+                                   beta_phi = NULL,
                                    A_S = NULL, B_S = NULL,
                                    S_DATA = NULL, ...) {
   use_mixture_prior <- mixture_probabilities != 1
@@ -71,6 +73,7 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
   for (i in seq(1, N_mix)) {
     mix_idx[i, ] <- which(apply(comps, 1, function(r) r[which_mix[i]] == 1))
   }
+
   if (run_estimation == 0) {
     y <- y %||% rpois(G * N_g, 10) # nolint
   } else {
@@ -78,6 +81,7 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
       stop("y cannot be NULL if run_estimation != 0")
     }
   }
+
   if (normfactors_known) {
     # TODO: use calc_norm_factors() instead
     S_DATA <- S_DATA %||% rep(0, N_g) # nolint
@@ -87,6 +91,12 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     S_DATA <- numeric(0)
     A_S <- A_S %||% 0 # nolint
     B_S <- B_S %||% 0.1 # nolint
+  }
+
+  if (use_neg_binomial_response) {
+    beta_phi <- beta_phi %||% c(0, 1)
+  } else {
+    beta_phi <- numeric(0)
   }
 
   standata <- list(
@@ -110,7 +120,9 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     normfactors_known = normfactors_known,
     S_DATA = S_DATA,
     A_S = A_S,
-    B_S = B_S
+    B_S = B_S,
+    use_neg_binomial_response = use_neg_binomial_response,
+    beta_phi = beta_phi
   )
 
   model <- instantiate::stan_package_model(
