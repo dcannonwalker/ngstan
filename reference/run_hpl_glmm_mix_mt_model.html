@@ -44,8 +44,7 @@
 <span>  <span class="va">G</span>,</span>
 <span>  <span class="va">X_g</span>,</span>
 <span>  <span class="va">Z_g</span>,</span>
-<span>  <span class="va">comps</span>,</span>
-<span>  <span class="va">prob</span>,</span>
+<span>  <span class="va">mixture_probabilities</span>,</span>
 <span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  a_sig2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  b_sig2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -94,13 +93,10 @@ and ignores the data</p></dd>
 <dd><p>Random effects design matrix for a single group</p></dd>
 
 
-<dt id="arg-comps">comps<a class="anchor" aria-label="anchor" href="#arg-comps"></a></dt>
-<dd><p>Matrix encoding bernoulli mixture priors</p></dd>
-
-
-<dt id="arg-prob">prob<a class="anchor" aria-label="anchor" href="#arg-prob"></a></dt>
-<dd><p>Vector giving the prior probability of each combination of
-bernoulli components, i.e. of each row in `comps`</p></dd>
+<dt id="arg-mixture-probabilities">mixture_probabilities<a class="anchor" aria-label="anchor" href="#arg-mixture-probabilities"></a></dt>
+<dd><p>Vector giving the prior probabilities that
+each regression parameter is drawn from the 0-component of the mixture
+prior</p></dd>
 
 
 <dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
