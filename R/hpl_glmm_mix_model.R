@@ -15,9 +15,9 @@
 #' described in the `{edgeR}` package
 #' @param A_S location parameter for `S_PARAM` if `!normfactors_known`
 #' @param B_S scale parameter for `S_PARAM` if `!normfactors_known`
-#' @param comps Matrix encoding bernoulli mixture priors
-#' @param prob Vector giving the prior probability of each combination of
-#' bernoulli components, i.e. of each row in `comps`
+#' @param mixture_probabilities Vector giving the prior probabilities that
+#' each regression parameter is drawn from the 0-component of the mixture
+#' prior
 #' @param run_estimation one of `c(0, 1)`; if 0, samples from the prior only
 #' and ignores the data
 #' @param a_sig2 vector of shape parameters
@@ -45,7 +45,8 @@
 #'   objects: <https://mc-stan.org/cmdstanr/reference/model-method-sample.html>
 run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
                                    run_estimation = 0,
-                                   G, X_g, Z_g, comps, prob,
+                                   G, X_g, Z_g,
+                                   mixture_probabilities,
                                    y = NULL,
                                    a_sig2 = NULL, b_sig2 = NULL,
                                    a_sig2_mu = NULL, b_sig2_mu = NULL,
@@ -55,6 +56,9 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
                                    normfactors_known = FALSE,
                                    A_S = NULL, B_S = NULL,
                                    S_DATA = NULL, ...) {
+  use_mixture_prior <- mixture_probabilities != 1
+  comps <- build_mixture_indicator(use_mixture_prior) # nolint
+  prob <- build_mixture_probabilities(mixture_probabilities) # nolint
   method <- match.arg(method)
   N_g <- nrow(X_g)
   K <- ncol(X_g)

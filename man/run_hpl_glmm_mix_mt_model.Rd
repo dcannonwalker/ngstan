@@ -11,8 +11,7 @@ run_hpl_glmm_mix_mt_model(
   G,
   X_g,
   Z_g,
-  comps,
-  prob,
+  mixture_probabilities,
   y = NULL,
   a_sig2 = NULL,
   b_sig2 = NULL,
@@ -45,10 +44,9 @@ and ignores the data}
 
 \item{Z_g}{Random effects design matrix for a single group}
 
-\item{comps}{Matrix encoding bernoulli mixture priors}
-
-\item{prob}{Vector giving the prior probability of each combination of
-bernoulli components, i.e. of each row in `comps`}
+\item{mixture_probabilities}{Vector giving the prior probabilities that
+each regression parameter is drawn from the 0-component of the mixture
+prior}
 
 \item{y}{Numeric vector of output values, sorted by group}
 
