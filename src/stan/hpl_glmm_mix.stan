@@ -38,8 +38,8 @@ data {
   array[N_g * G] int<lower=0> y;
   int<lower=0, upper=1> normfactors_known; // fixed normalization factors?
   vector[normfactors_known ? N_g : 0] S_DATA;
-  array[normfactors_known ? 0 : 1] real A_S;
-  array[normfactors_known ? 0 : 1] real<lower=0> B_S;
+  array[normfactors_known ? 0 : N_g] real A_S;
+  array[normfactors_known ? 0 : N_g] real<lower=0> B_S;
   int<lower=0> N_mix;
   int<lower=1> N_comps;
   array[N_comps] row_vector[K] comps;
@@ -58,6 +58,7 @@ data {
   real<lower=0> b_sig2_offset; // scale
   int<lower=0, upper=1> run_estimation;
   int<lower=0, upper=1> use_neg_binomial_response;
+  vector[use_neg_binomial_response ? 2 : 0] beta_phi_prior;
 }
 transformed data {
   array[G, N_g] int y_g;
@@ -84,13 +85,13 @@ parameters {
   vector<lower=0>[U] sig2_u;
   vector<lower=0>[K] sig2_mu;
   vector[normfactors_known ? 0 : N_g] S_PARAM;
-  vector[use_neg_binomial_response ? 0 : 2] beta_phi;
+  vector[use_neg_binomial_response ? 2 : 0] beta_phi;
 }
 transformed parameters {
   array[G] vector[N_comps] lp;
   array[G] real lse; // log sum of exponents for each group
   array[G, N_comps] vector[N_g] log_lambda;
-  array[use_neg_binomial_response ? 0 : G] real phi;
+  array[use_neg_binomial_response ? G : 0] real phi;
   vector[N_g] S;
   if (normfactors_known) {
     S = S_DATA;
@@ -124,6 +125,7 @@ model {
   sig2_offset ~ inv_gamma(a_sig2_offset, b_sig2_offset);
   sig2_mu ~ inv_gamma(a_sig2_mu, b_sig2_mu);
   sig2_u ~ inv_gamma(a_sig2_u, b_sig2_u);
+  beta_phi ~ normal(beta_phi_prior[1], beta_phi_prior[2]);
   if (!normfactors_known) {
     S_PARAM ~ normal(A_S, B_S);
   }

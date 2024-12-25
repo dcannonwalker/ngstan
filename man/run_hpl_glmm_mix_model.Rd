@@ -24,7 +24,7 @@ run_hpl_glmm_mix_model(
   b_sig2_u = NULL,
   normfactors_known = FALSE,
   use_neg_binomial_response = FALSE,
-  beta_phi = NULL,
+  beta_phi_prior = NULL,
   A_S = NULL,
   B_S = NULL,
   S_DATA = NULL,

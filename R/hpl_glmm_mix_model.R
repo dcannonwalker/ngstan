@@ -55,18 +55,18 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
                                    a_sig2_u = NULL, b_sig2_u = NULL,
                                    normfactors_known = FALSE,
                                    use_neg_binomial_response = FALSE,
-                                   beta_phi = NULL,
+                                   beta_phi_prior = NULL,
                                    A_S = NULL, B_S = NULL,
                                    S_DATA = NULL, ...) {
   use_mixture_prior <- mixture_probabilities != 1
   comps <- build_mixture_indicator(use_mixture_prior) # nolint
-  prob <- build_mixture_probabilities(mixture_probabilities) # nolint
+  prob <- build_mixture_probabilities(mixture_probabilities, comps) # nolint
   method <- match.arg(method)
   N_g <- nrow(X_g)
   K <- ncol(X_g)
   U <- ncol(Z_g)
   N_comps <- nrow(comps)
-  which_mix <- sort(unique(unlist(apply(comps, 1, function(r) which(r == 0)))))
+  which_mix <- which(use_mixture_prior)
   N_mix <- length(which_mix)
   comps_per_mix <- N_comps / 2
   mix_idx <- matrix(nrow = N_mix, ncol = comps_per_mix)
@@ -89,14 +89,14 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     B_S <- numeric(0)
   } else {
     S_DATA <- numeric(0)
-    A_S <- A_S %||% 0 # nolint
-    B_S <- B_S %||% 0.1 # nolint
+    A_S <- A_S %||% rep(0, N_g) # nolint
+    B_S <- B_S %||% rep(0.1, N_g) # nolint
   }
 
   if (use_neg_binomial_response) {
-    beta_phi <- beta_phi %||% c(0, 1)
+    beta_phi_prior <- beta_phi_prior %||% c(0, 1)
   } else {
-    beta_phi <- numeric(0)
+    beta_phi_prior <- numeric(0)
   }
 
   standata <- list(
@@ -122,7 +122,7 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     A_S = A_S,
     B_S = B_S,
     use_neg_binomial_response = use_neg_binomial_response,
-    beta_phi = beta_phi
+    beta_phi_prior = beta_phi_prior
   )
 
   model <- instantiate::stan_package_model(
