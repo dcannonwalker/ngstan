@@ -1,68 +1,90 @@
 functions {
-  vector count_log_lpmf_mixture(
+  vector poisson_log_lpmf_mixture(
     array[] int y, // length N_g
     array[] matrix design_comps, // length N_comps, N_g x (K + U)
     vector all_glmm_pars, // length K + U
     real log_offset,
     vector S,
     array[] real prob, // length N_comps
-    int run_estimation,
-    int use_neg_binomial_response,
-    real phi
+    int run_estimation
     ) {
       int n_comps = size(prob);
       vector[n_comps] comps;
       for (i in 1:n_comps) {
         comps[i] = prob[i];
         if (run_estimation == 1) {
-          if (use_neg_binomial_response) {
-            comps[i] += neg_binomial_2_log_glm_lpmf(y |
-              design_comps[i],
-              S + log_offset,
-              all_glmm_pars,
-              phi);
-
-          } else {
-            // comps[i] += poisson_log_lpmf(y | log_lambda[i]);
-            // comps[i] += poisson_log_glm_lupmf(y |
-            //  design_comps[i], log_offset, all_glmm_pars)
-            comps[i] += poisson_log_glm_lpmf(y |
-              design_comps[i],
-              S + log_offset,
-              all_glmm_pars);
-          }
+          // comps[i] += poisson_log_lpmf(y | log_lambda[i]);
+          // comps[i] += poisson_log_glm_lupmf(y |
+          //  design_comps[i], log_offset, all_glmm_pars)
+          comps[i] += poisson_log_glm_lpmf(y |
+          design_comps[i],
+          S + log_offset,
+          all_glmm_pars);
         }
       }
       return(comps);
     }
-    real partial_sum(
-      array[,] int y_slice, // G x N_g
-      int start, int end,
-      // int N_comps,
-      array[] real log_offset, // G
-      array[] matrix design_comps, // N_comps x N_g x (K + U)
-      array[] vector all_glmm_pars, // K + U
-      array[] real prob,
-      vector S, // N_g
+    vector neg_binomial_2_log_lpmf_mixture(
+      array[] int y, // length N_g
+      array[] matrix design_comps, // length N_comps, N_g x (K + U)
+      vector all_glmm_pars, // length K + U
+      real log_offset,
+      vector S,
+      array[] real prob, // length N_comps
       int run_estimation,
       int use_neg_binomial_response,
       real phi
       ) {
-        int L = end - start + 1;
-        vector[L] partial_vec;
-        array[L] vector[size(prob)] lp;
-        array[L] real lse;
-        for (g in start:end) {
-          int idx = g - start + 1 ;
-          lp[idx] = poisson_log_lpmf_mixture(
-            y_slice[idx],
-            design_comps, all_glmm_pars[g],
-            log_offset[g], S, prob, run_estimation,
-            use_neg_binomial_response, phi[g]);
-            lse[idx] = log_sum_exp(lp[idx]);
+        int n_comps = size(prob);
+        vector[n_comps] comps;
+        for (i in 1:n_comps) {
+          comps[i] = prob[i];
+          if (run_estimation == 1) {
+            comps[i] += neg_binomial_2_log_glm_lpmf(y |
+            design_comps[i],
+            S + log_offset,
+            all_glmm_pars,
+            phi);
+          }
         }
-        return(sum(lse));
+        return(comps);
       }
+      real partial_sum(
+        array[,] int y_slice, // G x N_g
+        int start, int end,
+        // int N_comps,
+        array[] real log_offset, // G
+        array[] matrix design_comps, // N_comps x N_g x (K + U)
+        array[] vector all_glmm_pars, // K + U
+        array[] real prob,
+        vector S, // N_g
+        int run_estimation,
+        int use_neg_binomial_response,
+        array[] real phi
+        ) {
+          int L = end - start + 1;
+          vector[L] partial_vec;
+          array[L] vector[size(prob)] lp;
+          array[L] real lse;
+          for (g in start:end) {
+            int idx = g - start + 1;
+            if (use_neg_binomial_response) {
+              lp[idx] = neg_binomial_2_log_lpmf_mixture(
+                y_slice[idx],
+                design_comps, all_glmm_pars[g],
+                log_offset[g], S, prob, run_estimation,
+                use_neg_binomial_response, phi[g]);
+                lse[idx] = log_sum_exp(lp[idx]);
+            } else {
+              lp[idx] = poisson_log_lpmf_mixture(
+                y_slice[idx],
+                design_comps, all_glmm_pars[g],
+                log_offset[g], S, prob, run_estimation);
+                lse[idx] = log_sum_exp(lp[idx]);
+            }
+          }
+          return(sum(lse));
+        }
 }
 data {
   int<lower=1> G;
@@ -74,6 +96,8 @@ data {
   array[G, N_g] int<lower=0> y;
   int<lower=0, upper=1> normfactors_known; // fixed normalization factors?
   vector[normfactors_known ? N_g : 0] S_DATA;
+  array[normfactors_known ? 0 : N_g] real A_S;
+  array[normfactors_known ? 0 : N_g] real<lower=0> B_S;
   int<lower=0> N_mix;
   int<lower=1> N_comps;
   array[N_comps] row_vector[K] comps;
@@ -118,10 +142,11 @@ parameters {
   vector<lower=0>[U] sig2_u;
   vector<lower=0>[K] sig2_mu;
   vector[normfactors_known ? 0 : N_g] S_PARAM;
-  vector[use_neg_binomial_response ? 2 : 0] beta_phi;
+  vector<lower=0>[use_neg_binomial_response ? 2 : 0] beta_phi;
 }
 transformed parameters {
   array[G] vector[K + U] all_glmm_pars;
+  array[use_neg_binomial_response ? G : 0] real phi;
   vector[N_g] S;
   if (normfactors_known) {
     S = S_DATA;
@@ -129,6 +154,10 @@ transformed parameters {
     S = S_PARAM;
   }
   for (g in 1:G) {
+    if (use_neg_binomial_response) {
+
+      phi[g] = beta_phi[1] + beta_phi[2] * log_offset[g];
+    }
     all_glmm_pars[g] = append_row(beta[g], u[g]);
   }
 }
@@ -140,13 +169,19 @@ model {
   sig2_offset ~ inv_gamma(a_sig2_offset, b_sig2_offset);
   sig2_mu ~ inv_gamma(a_sig2_mu, b_sig2_mu);
   sig2_u ~ inv_gamma(a_sig2_u, b_sig2_u);
-  beta_phi ~ normal(beta_phi_prior[1], beta_phi_prior[2]);
+  if (!normfactors_known) {
+    S_PARAM ~ normal(A_S, B_S);
+  }
+  if (use_neg_binomial_response) {
+    beta_phi ~ normal(beta_phi_prior[1], beta_phi_prior[2]);
+  }
   for (g in 1:G) {
     beta[g] ~ normal(mu, sig2);
     u[g] ~ normal(0, sig2_u);
   }
   target += reduce_sum(partial_sum, y, grainsize, log_offset,
-  design_comps, all_glmm_pars, prob, S, run_estimation);
+  design_comps, all_glmm_pars, prob, S, run_estimation,
+  use_neg_binomial_response, phi);
 }
 generated quantities {
   array[G] vector[N_comps] lp;

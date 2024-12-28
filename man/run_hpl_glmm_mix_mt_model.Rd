@@ -48,7 +48,7 @@ and ignores the data}
 each regression parameter is drawn from the 0-component of the mixture
 prior}
 
-\item{y}{Numeric vector of output values, sorted by group}
+\item{y}{Numeric matrix of output values}
 
 \item{a_sig2}{vector of shape parameters
 for Inverse Gamma priors on `sig2`}

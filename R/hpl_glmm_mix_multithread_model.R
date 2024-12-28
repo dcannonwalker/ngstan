@@ -6,7 +6,7 @@
 #' @param G Number of groups
 #' @param X_g Fixed effects design matrix for a single group
 #' @param Z_g Random effects design matrix for a single group
-#' @param y Numeric vector of output values, sorted by group
+#' @param y Numeric matrix of output values
 #' @param normfactors_known Use fixed normalization factors extrinsic to
 #' the model?
 #' @param S_DATA Numeric vector of normalization factors

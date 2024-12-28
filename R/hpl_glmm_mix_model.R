@@ -6,7 +6,7 @@
 #' @param G Number of groups
 #' @param X_g Fixed effects design matrix for a single group
 #' @param Z_g Random effects design matrix for a single group
-#' @param y Numeric vector of output values, sorted by group
+#' @param y Numeric matrix of output values
 #' @param normfactors_known Use fixed normalization factors extrinsic to
 #' the model?
 #' @param S_DATA Numeric vector of normalization factors
@@ -44,7 +44,8 @@
 #' @param ... Named arguments to the `sample()` method of CmdStan model
 #'   objects: <https://mc-stan.org/cmdstanr/reference/model-method-sample.html>
 run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
-                                   run_estimation = 0,
+                                   run_estimation = FALSE,
+                                   use_multithread = FALSE,
                                    G, X_g, Z_g,
                                    mixture_probabilities,
                                    y = NULL,
@@ -74,8 +75,11 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     mix_idx[i, ] <- which(apply(comps, 1, function(r) r[which_mix[i]] == 1))
   }
 
-  if (run_estimation == 0) {
-    y <- y %||% rpois(G * N_g, 10) # nolint
+  if (!run_estimation) {
+    y <- y %||% matrix( # nolint
+      nrow = G, ncol = N_g, byrow = TRUE,
+      rpois(G * N_g, 10)
+    ) # allow null y if run_estimation == 0
   } else {
     if (is.null(y)) {
       stop("y cannot be NULL if run_estimation != 0")
