@@ -38,6 +38,8 @@ run_hpl_glmm_mix_model(
 \item{run_estimation}{one of `c(0, 1)`; if 0, samples from the prior only
 and ignores the data}
 
+\item{use_multithread}{Use the multithread-enabled version of the Stan model?}
+
 \item{G}{Number of groups}
 
 \item{X_g}{Fixed effects design matrix for a single group}
@@ -82,6 +84,12 @@ for Inverse Gamma priors on `sig2_u`}
 
 \item{normfactors_known}{Use fixed normalization factors extrinsic to
 the model?}
+
+\item{use_neg_binomial_response}{Use the negative binomial distribution
+instead of Poisson for the errors?}
+
+\item{beta_phi_prior}{2-vector giving location and scale parameters for
+the prior distribution of `beta_phi`}
 
 \item{A_S}{location parameter for `S_PARAM` if `!normfactors_known`}
 

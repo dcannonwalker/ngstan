@@ -9,6 +9,11 @@
 #' @param y Numeric matrix of output values
 #' @param normfactors_known Use fixed normalization factors extrinsic to
 #' the model?
+#' @param use_multithread Use the multithread-enabled version of the Stan model?
+#' @param use_neg_binomial_response Use the negative binomial distribution
+#' instead of Poisson for the errors?
+#' @param beta_phi_prior 2-vector giving location and scale parameters for
+#' the prior distribution of `beta_phi`
 #' @param S_DATA Numeric vector of normalization factors
 #' for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
 #' normalization factors will be estimated by the `TMM` method as

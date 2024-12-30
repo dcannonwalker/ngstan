@@ -3,44 +3,7 @@
 #' @family models
 #' @description Fit the hpl_glmm_mix Stan model and return fit object
 #' @return An object of class `CmdStanMCMC`
-#' @param G Number of groups
-#' @param X_g Fixed effects design matrix for a single group
-#' @param Z_g Random effects design matrix for a single group
-#' @param y Numeric matrix of output values
-#' @param normfactors_known Use fixed normalization factors extrinsic to
-#' the model?
-#' @param S_DATA Numeric vector of normalization factors
-#' for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
-#' normalization factors will be estimated by the `TMM` method as
-#' described in the `{edgeR}` package
-#' @param A_S location parameter for `S_PARAM` if `!normfactors_known`
-#' @param B_S scale parameter for `S_PARAM` if `!normfactors_known`
-#' @param mixture_probabilities Vector giving the prior probabilities that
-#' each regression parameter is drawn from the 0-component of the mixture
-#' prior
-#' @param run_estimation one of `c(0, 1)`; if 0, samples from the prior only
-#' and ignores the data
-#' @param a_sig2 vector of shape parameters
-#' for Inverse Gamma priors on `sig2`
-#' @param b_sig2 vector of scale parameters
-#' for Inverse Gamma priors on `sig2`
-#' @param a_sig2_mu vector of shape parameters
-#' for Inverse Gamma priors on `sig2_mu`
-#' @param b_sig2_mu vector of scale parameters
-#' for Inverse Gamma priors on `sig2_mu`
-#' @param a_mu_offset vector of shape parameters
-#' for Inverse Gamma priors on `mu_offset`
-#' @param b_mu_offset vector of scale parameters
-#' for Inverse Gamma priors on `mu_offset`
-#' @param a_sig2_offset vector of shape parameters
-#' for Inverse Gamma priors on `sig2_offset`
-#' @param b_sig2_offset vector of scale parameters
-#' for Inverse Gamma priors on `sig2_offset`
-#' @param a_sig2_u vector of shape parameters
-#' for Inverse Gamma priors on `sig2_u`
-#' @param b_sig2_u vector of scale parameters
-#' for Inverse Gamma priors on `sig2_u`
-#' @param method One of `c("sample", "vb", "pathfinder")`
+#' @inheritParams run_hpl_glmm_mix_model
 #' @param grainsize Grainsize for multithread
 #' @param ... Named arguments to the `sample()` method of CmdStan model
 #'   objects: <https://mc-stan.org/cmdstanr/reference/model-method-sample.html>
