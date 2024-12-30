@@ -98,7 +98,7 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
   }
 
   if (use_neg_binomial_response) {
-    beta_phi_prior <- beta_phi_prior %||% c(0, 1)
+    beta_phi_prior <- beta_phi_prior %||% c(0, 1) # nolint
   } else {
     beta_phi_prior <- numeric(0)
   }
