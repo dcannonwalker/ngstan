@@ -26,3 +26,18 @@ sim <- do.call(run_hpl_glmm_mix_model, args)
 test_that("simulation runs for negative binomial response model", {
   expect_no_error(sim$draws())
 })
+
+test_that("multithread gives a speed advantage", {
+  args$use_multithread <- FALSE
+  start <- Sys.time()
+  sim1 <- do.call(run_hpl_glmm_mix_model, args)
+  stop <- Sys.time()
+  diff1 <- stop - start
+  args$grainsize <- 12
+  args$use_multithread <- TRUE
+  start <- Sys.time()
+  sim2 <- do.call(run_hpl_glmm_mix_model, args)
+  stop <- Sys.time()
+  diff2 <- stop - start
+  expect_true(as.numeric(diff2) / as.numeric(diff1) < 0.8)
+})

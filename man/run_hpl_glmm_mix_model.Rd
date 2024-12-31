@@ -8,6 +8,7 @@ run_hpl_glmm_mix_model(
   method = c("sample", "vb", "pathfinder"),
   run_estimation = FALSE,
   use_multithread = FALSE,
+  grainsize = NULL,
   G,
   X_g,
   Z_g,
@@ -39,6 +40,8 @@ run_hpl_glmm_mix_model(
 and ignores the data}
 
 \item{use_multithread}{Use the multithread-enabled version of the Stan model?}
+
+\item{grainsize}{Grainsize for multithread}
 
 \item{G}{Number of groups}
 
@@ -108,9 +111,5 @@ An object of class `CmdStanMCMC`
 }
 \description{
 Fit the hpl_glmm_mix Stan model and return fit object
-}
-\seealso{
-Other models: 
-\code{\link{run_hpl_glmm_mix_mt_model}()}
 }
 \concept{models}

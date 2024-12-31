@@ -10,6 +10,7 @@
 #' @param normfactors_known Use fixed normalization factors extrinsic to
 #' the model?
 #' @param use_multithread Use the multithread-enabled version of the Stan model?
+#' @param grainsize Grainsize for multithread
 #' @param use_neg_binomial_response Use the negative binomial distribution
 #' instead of Poisson for the errors?
 #' @param beta_phi_prior 2-vector giving location and scale parameters for
@@ -51,6 +52,7 @@
 run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
                                    run_estimation = FALSE,
                                    use_multithread = FALSE,
+                                   grainsize = NULL,
                                    G, X_g, Z_g,
                                    mixture_probabilities,
                                    y = NULL,
@@ -134,10 +136,19 @@ run_hpl_glmm_mix_model <- function(method = c("sample", "vb", "pathfinder"),
     beta_phi_prior = beta_phi_prior
   )
 
-  model <- instantiate::stan_package_model(
-    name = "hpl_glmm_mix",
-    package = "ngstan"
-  )
+  if (use_multithread) {
+    grainsize <- grainsize %||% 1 # nolint
+    standata[["grainsize"]] <- grainsize
+    model <- instantiate::stan_package_model(
+      name = "hpl_glmm_mix_multithread",
+      package = "ngstan"
+    )
+  } else {
+    model <- instantiate::stan_package_model(
+      name = "hpl_glmm_mix",
+      package = "ngstan"
+    )
+  }
 
   fit <- switch(method,
     sample = model$sample(data = standata, ...),
