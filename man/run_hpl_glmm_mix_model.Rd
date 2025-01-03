@@ -6,7 +6,9 @@
 \usage{
 run_hpl_glmm_mix_model(
   method = c("sample", "vb", "pathfinder"),
-  run_estimation = 0,
+  run_estimation = FALSE,
+  use_multithread = FALSE,
+  grainsize = NULL,
   G,
   X_g,
   Z_g,
@@ -23,6 +25,8 @@ run_hpl_glmm_mix_model(
   a_sig2_u = NULL,
   b_sig2_u = NULL,
   normfactors_known = FALSE,
+  use_neg_binomial_response = FALSE,
+  beta_phi_prior = NULL,
   A_S = NULL,
   B_S = NULL,
   S_DATA = NULL,
@@ -35,6 +39,10 @@ run_hpl_glmm_mix_model(
 \item{run_estimation}{one of `c(0, 1)`; if 0, samples from the prior only
 and ignores the data}
 
+\item{use_multithread}{Use the multithread-enabled version of the Stan model?}
+
+\item{grainsize}{Grainsize for multithread}
+
 \item{G}{Number of groups}
 
 \item{X_g}{Fixed effects design matrix for a single group}
@@ -45,7 +53,7 @@ and ignores the data}
 each regression parameter is drawn from the 0-component of the mixture
 prior}
 
-\item{y}{Numeric vector of output values, sorted by group}
+\item{y}{Numeric matrix of output values}
 
 \item{a_sig2}{vector of shape parameters
 for Inverse Gamma priors on `sig2`}
@@ -80,6 +88,12 @@ for Inverse Gamma priors on `sig2_u`}
 \item{normfactors_known}{Use fixed normalization factors extrinsic to
 the model?}
 
+\item{use_neg_binomial_response}{Use the negative binomial distribution
+instead of Poisson for the errors?}
+
+\item{beta_phi_prior}{2-vector giving location and scale parameters for
+the prior distribution of `beta_phi`}
+
 \item{A_S}{location parameter for `S_PARAM` if `!normfactors_known`}
 
 \item{B_S}{scale parameter for `S_PARAM` if `!normfactors_known`}
@@ -97,9 +111,5 @@ An object of class `CmdStanMCMC`
 }
 \description{
 Fit the hpl_glmm_mix Stan model and return fit object
-}
-\seealso{
-Other models: 
-\code{\link{run_hpl_glmm_mix_mt_model}()}
 }
 \concept{models}

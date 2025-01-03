@@ -2,5 +2,4 @@
 
 export(calc_norm_factors)
 export(run_hpl_glmm_mix_model)
-export(run_hpl_glmm_mix_mt_model)
 importFrom(instantiate,stan_package_model)
