@@ -41,3 +41,17 @@ test_that("multithread gives a speed advantage", {
   diff2 <- stop - start
   expect_true(as.numeric(diff2) / as.numeric(diff1) < 0.8)
 })
+
+test_that("default normfactors_known works", {
+  args$normfactors_known <- TRUE
+  sim <- do.call(run_hpl_glmm_mix_model, args)
+  draws <- sim$draws()
+  S <- posterior::extract_variable_array(draws, "S")
+  expect_equal(sum(S), expected = 0)
+  expect_error(draws[, , "S_PARAM[1]"])
+})
+
+test_that("NULL y is not allowed if run_estimation == TRUE", {
+  args$run_estimation <- TRUE
+  expect_error(do.call(run_hpl_glmm_mix_model, args))
+})
