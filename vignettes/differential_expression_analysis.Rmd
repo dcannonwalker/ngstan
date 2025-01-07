@@ -82,11 +82,10 @@ expression level between treatment and control.
 
 ```{r}
 args <- list(
-  y = as.matrix(mov10[, 2:ncol(mov10)]), # don't want geneid
+  y = as.matrix(mov10[, 4:ncol(mov10)]), # don't want geneid
   G = nrow(mov10), # number of genes / tags
   X_g = X_g,
   Z_g = matrix(data = numeric(), ncol = 0),
-  Z_g = diag(ncol = 6, nrow = 6),
   mixture_probabilities = mixture_probabilities
 )
 ```
@@ -100,7 +99,6 @@ vignette `"Computational costs"` for more information about how to minimize
 model sampling time and how to use the alternatives to MCMC sampling. 
 
 ```{r eval=FALSE}
-debugonce(run_hpl_glmm_mix_model)
 fit <- do.call(run_hpl_glmm_mix_model, args)
 ```
 
