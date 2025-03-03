@@ -8,6 +8,7 @@ work_notes
 # raw data files
 *.txt
 *.tsv
+*.xls
 
 # /
 
