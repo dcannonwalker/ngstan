@@ -17,6 +17,8 @@ run_hpl_glmm_mix_model <- function(standata,
                                    run_estimation = FALSE,
                                    use_multithread = FALSE,
                                    grainsize = NULL, ...) {
+  method <- match.arg(method)
+
   if (!run_estimation) {
     standata$counts <- standata$counts %||% matrix( # nolint
       nrow = standata$G, ncol = standata$N_g, byrow = TRUE,
