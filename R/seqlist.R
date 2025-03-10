@@ -1,6 +1,9 @@
+
+#' @param counts Numeric matrix of output value, where rows represent genes
+#' or tags and columns represent samples
+#' @param tags A dataframe of tag metadata, matching the row-order of `counts`
 #' @param fixed_design Fixed effects design matrix for a single group
 #' @param random_design Random effects design matrix for a single group
-#' @param counts Numeric matrix of output values
 #' @param mixture_probabilities Vector giving the prior probabilities that
 #' each regression parameter is drawn from the 0-component of the mixture
 #' prior
@@ -38,8 +41,9 @@ seqlist <- R6::R6Class(
     initialize_standata = function(...) {
       if (is.null(self$fixed_design)) {
         message("Not intitializing 'standata' because 'fixed_design' not set")
+      } else {
+        self$standata <- private$make_standata(...)
       }
-      self$standata <- make_standata(...)
     },
     #' Set the value of one of the modifiable elements of `standata`
     #' @param beta_phi_prior 2-vector giving location and scale parameters for
@@ -74,29 +78,29 @@ seqlist <- R6::R6Class(
     #' the model?
     #' @param use_neg_binomial_response Use the negative binomial distribution
     #' instead of Poisson for the errors?
-    set_standata <- function(a_sig2 = NULL,
-                             b_sig2 = NULL,
-                             a_sig2_mu = NULL,
-                             b_sig2_mu = NULL,
-                             a_mu_offset = NULL,
-                             b_mu_offset = NULL,
-                             a_sig2_offset = NULL,
-                             b_sig2_offset = NULL,
-                             a_sig2_u = NULL,
-                             b_sig2_u = NULL,
-                             beta_phi_prior = NULL,
-                             A_S = NULL,
-                             B_S = NULL,
-                             S_DATA = NULL,
-                             normfactors_known = NULL,
-                             use_neg_binomial_response = NULL) {
+    set_standata = function(a_sig2 = NULL,
+                            b_sig2 = NULL,
+                            a_sig2_mu = NULL,
+                            b_sig2_mu = NULL,
+                            a_mu_offset = NULL,
+                            b_mu_offset = NULL,
+                            a_sig2_offset = NULL,
+                            b_sig2_offset = NULL,
+                            a_sig2_u = NULL,
+                            b_sig2_u = NULL,
+                            beta_phi_prior = NULL,
+                            A_S = NULL,
+                            B_S = NULL,
+                            S_DATA = NULL,
+                            normfactors_known = NULL,
+                            use_neg_binomial_response = NULL) {
 
     }
   ),
   private = list(
     make_standata = function(...) {
-      standata <- make_mandatory_standata()
-      standata <- c(standata, make_optional_priors(standata, ...))
+      standata <- private$make_mandatory_standata()
+      standata <- c(standata, private$make_optional_priors(standata, ...))
       return(standata)
     },
     make_mandatory_standata = function() {
@@ -131,7 +135,7 @@ seqlist <- R6::R6Class(
         N_mix = N_mix,
         comps_per_mix = N_comps / 2,
         mix_idx = mix_idx,
-        prob = prob,
+        prob = prob
       )
       return(mandatory_standata)
     },
@@ -154,9 +158,10 @@ seqlist <- R6::R6Class(
                                     use_neg_binomial_response = NULL) {
       K <- mandatory_standata$K
       U <- mandatory_standata$U
+      N_g <- mandatory_standata$N_g
 
       normfactors_known <- normfactors_known %||% FALSE # nolint
-      use_neg_binomial_response <- use_neg %||% FALSE # nolint
+      use_neg_binomial_response <- use_neg_binomial_response %||% FALSE # nolint
       if (normfactors_known) {
         # TODO: use calc_norm_factors() instead
         S_DATA <- S_DATA %||% rep(0, N_g) # nolint

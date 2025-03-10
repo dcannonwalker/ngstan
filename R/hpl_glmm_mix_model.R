@@ -3,7 +3,8 @@
 #' @family models
 #' @description Fit the hpl_glmm_mix Stan model and return fit object
 #' @return An object of class `CmdStanMCMC`
-#' @param y A `seqlist` object
+#' @param standata A list of data to be passed to the Stan model,
+#' matching the format of the `standata` element of a `seqlist` object
 #' @param use_multithread Use the multithread-enabled version of the Stan model?
 #' @param grainsize Grainsize for multithread
 #' @param run_estimation one of `c(0, 1)`; if 0, samples from the prior only
@@ -18,8 +19,8 @@ run_hpl_glmm_mix_model <- function(standata,
                                    grainsize = NULL, ...) {
   if (!run_estimation) {
     standata$counts <- standata$counts %||% matrix( # nolint
-      nrow = G, ncol = N_g, byrow = TRUE,
-      rpois(G * N_g, 10)
+      nrow = standata$G, ncol = standata$N_g, byrow = TRUE,
+      rpois(standata$G * standata$N_g, 10)
     ) # allow null counts if run_estimation == 0
   } else {
     if (is.null(standata$counts)) {
