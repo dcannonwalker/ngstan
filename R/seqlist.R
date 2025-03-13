@@ -95,6 +95,17 @@ seqlist <- R6::R6Class(
                             normfactors_known = NULL,
                             use_neg_binomial_response = NULL) {
 
+    },
+    run_model = function(method = c("sample", "vb", "pathfinder"),
+                   run_estimation = FALSE,
+                   use_multithread = FALSE,
+                   grainsize = NULL, ...) {
+      fit <- run_hpl_glmm_mix_model(standata = self$standata, method = method,
+                             run_estimation = run_estimation,
+                             use_multithread = use_multithread,
+                             grainsize = grainsize,
+                             ...)
+      return(fit)
     }
   ),
   private = list(
@@ -105,8 +116,8 @@ seqlist <- R6::R6Class(
     },
     make_mandatory_standata = function() {
       use_mixture_prior <- self$mixture_probabilities != 1
-      comps <- ngstan:::build_mixture_indicator(use_mixture_prior) # nolint
-      prob <- ngstan:::build_mixture_probabilities(mixture_probabilities, comps) # nolint
+      comps <- private$build_mixture_indicator(use_mixture_prior) # nolint
+      prob <- private$build_mixture_probabilities(mixture_probabilities, comps) # nolint
       N_comps <- nrow(comps)
       which_mix <- which(use_mixture_prior)
       N_mix <- length(which_mix)
@@ -197,6 +208,34 @@ seqlist <- R6::R6Class(
         beta_phi_prior = beta_phi_prior
       )
       return(optional_priors)
+    },
+    #' Build the set of mixture prior indicators
+    #'
+    #' @param x An indicator vector identifying which
+    #' regression parameters should use the mixture prior
+    build_mixture_indicator = function(x) {
+      x_list <- list()
+      for (i in seq(1, length(x))) {
+        if (x[i] == 0) {
+          x_list[[i]] <- 1
+        } else if (x[i] == 1) {
+          x_list[[i]] <- c(0, 1)
+        }
+      }
+      as.matrix(expand.grid(x_list))
+    },
+
+    #' Build the set of mixture combination prior probabilities
+    #'
+    #' @param x A vector of probabilities
+    #' @param y A matrix with each row representing a combination of
+    #' draws from binary random variables
+    build_mixture_probabilities = function(x, y) {
+      apply(
+        y, 1, function(r) {
+          prod(r * x + abs(1 - r) * (1 - x))
+        }
+      )
     }
   )
 )
