@@ -5,35 +5,18 @@
 \title{Fit the hpl_glmm_mix model}
 \usage{
 run_hpl_glmm_mix_model(
+  standata,
   method = c("sample", "vb", "pathfinder"),
   run_estimation = FALSE,
   use_multithread = FALSE,
   grainsize = NULL,
-  G,
-  X_g,
-  Z_g,
-  mixture_probabilities,
-  y = NULL,
-  a_sig2 = NULL,
-  b_sig2 = NULL,
-  a_sig2_mu = NULL,
-  b_sig2_mu = NULL,
-  a_mu_offset = NULL,
-  b_mu_offset = NULL,
-  a_sig2_offset = NULL,
-  b_sig2_offset = NULL,
-  a_sig2_u = NULL,
-  b_sig2_u = NULL,
-  normfactors_known = FALSE,
-  use_neg_binomial_response = FALSE,
-  beta_phi_prior = NULL,
-  A_S = NULL,
-  B_S = NULL,
-  S_DATA = NULL,
   ...
 )
 }
 \arguments{
+\item{standata}{A list of data to be passed to the Stan model,
+matching the format of the `standata` element of a `seqlist` object}
+
 \item{method}{One of `c("sample", "vb", "pathfinder")`}
 
 \item{run_estimation}{one of `c(0, 1)`; if 0, samples from the prior only
@@ -42,66 +25,6 @@ and ignores the data}
 \item{use_multithread}{Use the multithread-enabled version of the Stan model?}
 
 \item{grainsize}{Grainsize for multithread}
-
-\item{G}{Number of groups}
-
-\item{X_g}{Fixed effects design matrix for a single group}
-
-\item{Z_g}{Random effects design matrix for a single group}
-
-\item{mixture_probabilities}{Vector giving the prior probabilities that
-each regression parameter is drawn from the 0-component of the mixture
-prior}
-
-\item{y}{Numeric matrix of output values}
-
-\item{a_sig2}{vector of shape parameters
-for Inverse Gamma priors on `sig2`}
-
-\item{b_sig2}{vector of scale parameters
-for Inverse Gamma priors on `sig2`}
-
-\item{a_sig2_mu}{vector of shape parameters
-for Inverse Gamma priors on `sig2_mu`}
-
-\item{b_sig2_mu}{vector of scale parameters
-for Inverse Gamma priors on `sig2_mu`}
-
-\item{a_mu_offset}{vector of shape parameters
-for Inverse Gamma priors on `mu_offset`}
-
-\item{b_mu_offset}{vector of scale parameters
-for Inverse Gamma priors on `mu_offset`}
-
-\item{a_sig2_offset}{vector of shape parameters
-for Inverse Gamma priors on `sig2_offset`}
-
-\item{b_sig2_offset}{vector of scale parameters
-for Inverse Gamma priors on `sig2_offset`}
-
-\item{a_sig2_u}{vector of shape parameters
-for Inverse Gamma priors on `sig2_u`}
-
-\item{b_sig2_u}{vector of scale parameters
-for Inverse Gamma priors on `sig2_u`}
-
-\item{normfactors_known}{Use fixed normalization factors extrinsic to
-the model?}
-
-\item{use_neg_binomial_response}{Use the negative binomial distribution
-instead of Poisson for the errors?}
-
-\item{beta_phi_prior}{2-vector giving location and scale parameters for
-the prior distribution of `beta_phi`}
-
-\item{A_S}{location parameter for `S_PARAM` if `!normfactors_known`}
-
-\item{B_S}{scale parameter for `S_PARAM` if `!normfactors_known`}
-
-\item{S_DATA}{Numeric vector of normalization factors
-for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
-normalization factors will be estimated by the `TMM` method as
-described in the `{edgeR}` package}
 
 \item{...}{Named arguments to the `sample()` method of CmdStan model
 objects: <https://mc-stan.org/cmdstanr/reference/model-method-sample.html>}

@@ -1,22 +1,37 @@
 
-#' @param counts Numeric matrix of output value, where rows represent genes
-#' or tags and columns represent samples
-#' @param tags A dataframe of tag metadata, matching the row-order of `counts`
-#' @param fixed_design Fixed effects design matrix for a single group
-#' @param random_design Random effects design matrix for a single group
-#' @param mixture_probabilities Vector giving the prior probabilities that
-#' each regression parameter is drawn from the 0-component of the mixture
-#' prior
+#' R6 class representing data from an RNA-Seq or Ribo-Seq experiment
+#'
+#' @description
+#' A `seqlist` has data from the experiment and information about
+#' the experimental design and model specification.
+#'
 #' @export
 seqlist <- R6::R6Class(
   "seqlist",
   public = list(
+    #' @field counts Numeric matrix of output value, where rows represent genes
+    #' or tags and columns represent samples
     counts = NULL,
+    #' @field tags A dataframe of tag metadata, matching the row-order of `counts`
     tags = NULL,
+    #' @field fixed_design Fixed effects design matrix for a single group
     fixed_design = NULL,
+    #' @field random_design Random effects design matrix for a single group
     random_design = NULL,
+    #' @field mixture_probabilities Vector giving the prior probabilities that
+    #' each regression parameter is drawn from the 0-component of the mixture
+    #' prior
     mixture_probabilities = NULL,
+    #' @field standata List of data to be passed to Stan
     standata = NULL,
+    #' @description Create a new `seqlist`
+    #'
+    #' @param counts Value for `counts` field
+    #' @param tags Value for `tags` field
+    #' @param fixed_design Value for `fixed_design` field
+    #' @param random_design Value for `random_design` field
+    #' @param mixture_probabilities Value for `mixture_probabilities` field
+    #' @return A new `seqlist` object
     initialize = function(counts, tags = NULL,
                           fixed_design = NULL,
                           random_design = NULL,
@@ -29,15 +44,23 @@ seqlist <- R6::R6Class(
         mixture_probabilities <- mixture_probabilities %||% rep(1, ncol(fixed_design))
       }
     },
+    #' set the `fixed_design` field
+    #' @param fixed_design the fixed design matrix to use
     set_fixed_design = function(fixed_design) {
       self$fixed_design <- fixed_design
     },
-    set_random_design = function(fixed_design) {
-      self$random_design <- fixed_design
+    #' set the `random_design` matrix field
+    #' @param random_design the random design matrix to use
+    set_random_design = function(random_design) {
+      self$random_design <- random_design
     },
+    #' set the `mixture_probabilities` field
+    #' @param mixture_probabilities the vector of mixture probabilities
     set_mixture_probabilities = function(mixture_probabilities) {
       self$mixture_probabilities <- mixture_probabilities
     },
+    #' set the `standata` field
+    #' @param ... arguments passed to private methods
     initialize_standata = function(...) {
       if (is.null(self$fixed_design)) {
         message("Not intitializing 'standata' because 'fixed_design' not set")
@@ -96,6 +119,13 @@ seqlist <- R6::R6Class(
                             use_neg_binomial_response = NULL) {
 
     },
+    #' run the model
+    #' @param method the sampling algorithm to use
+    #' @param run_estimation include the likelihood in the objective?
+    #' @param use_multithread use the multithread-enabled model?
+    #' @param grainsize grainsize for multithread
+    #' @param ... arguments passed to the `{cmdstanr}` function
+    #' identified by `method`
     run_model = function(method = c("sample", "vb", "pathfinder"),
                    run_estimation = FALSE,
                    use_multithread = FALSE,
@@ -209,10 +239,11 @@ seqlist <- R6::R6Class(
       )
       return(optional_priors)
     },
-    #' Build the set of mixture prior indicators
-    #'
-    #' @param x An indicator vector identifying which
-    #' regression parameters should use the mixture prior
+    # @description
+    # Build the set of mixture prior indicators
+    #
+    # @param x An indicator vector identifying which
+    # regression parameters should use the mixture prior
     build_mixture_indicator = function(x) {
       x_list <- list()
       for (i in seq(1, length(x))) {
@@ -225,11 +256,12 @@ seqlist <- R6::R6Class(
       as.matrix(expand.grid(x_list))
     },
 
-    #' Build the set of mixture combination prior probabilities
-    #'
-    #' @param x A vector of probabilities
-    #' @param y A matrix with each row representing a combination of
-    #' draws from binary random variables
+    # @description
+    # Build the set of mixture combination prior probabilities
+    #
+    # @param x A vector of probabilities
+    # @param y A matrix with each row representing a combination of
+    # draws from binary random variables
     build_mixture_probabilities = function(x, y) {
       apply(
         y, 1, function(r) {

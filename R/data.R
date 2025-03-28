@@ -20,7 +20,7 @@
 #' @format ## `mov10`
 #' A data frame with 14,675 rows and 9 columns:
 #' \describe{
-#'  \item{geneid}{Gene identifier}}
+#'  \item{geneid}{Gene identifier}
 #'  \item{low_..., high_..., control_...}{Gene expression counts
 #'  for each sample}
 #' }
