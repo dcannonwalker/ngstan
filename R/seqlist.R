@@ -32,7 +32,7 @@ seqlist <- R6::R6Class(
     #' @param random_design Value for `random_design` field
     #' @param mixture_probabilities Value for `mixture_probabilities` field
     #' @return A new `seqlist` object
-    initialize = function(counts, tags = NULL,
+    initialize = function(counts = NULL, tags = NULL,
                           fixed_design = NULL,
                           random_design = NULL,
                           mixture_probabilities = NULL) {
@@ -43,6 +43,11 @@ seqlist <- R6::R6Class(
       if (!is.null(fixed_design)) {
         mixture_probabilities <- mixture_probabilities %||% rep(1, ncol(fixed_design))
       }
+    },
+    #' set the `counts` field
+    #' @param counts the counts to use
+    set_counts = function(counts) {
+      self$counts <- counts
     },
     #' set the `fixed_design` field
     #' @param fixed_design the fixed design matrix to use
@@ -147,7 +152,7 @@ seqlist <- R6::R6Class(
     make_mandatory_standata = function() {
       use_mixture_prior <- self$mixture_probabilities != 1
       comps <- private$build_mixture_indicator(use_mixture_prior) # nolint
-      prob <- private$build_mixture_probabilities(mixture_probabilities, comps) # nolint
+      prob <- private$build_mixture_probabilities(self$mixture_probabilities, comps) # nolint
       N_comps <- nrow(comps)
       which_mix <- which(use_mixture_prior)
       N_mix <- length(which_mix)

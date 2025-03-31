@@ -31,6 +31,7 @@ prior}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-seqlist-new}{\code{seqlist$new()}}
+\item \href{#method-seqlist-set_counts}{\code{seqlist$set_counts()}}
 \item \href{#method-seqlist-set_fixed_design}{\code{seqlist$set_fixed_design()}}
 \item \href{#method-seqlist-set_random_design}{\code{seqlist$set_random_design()}}
 \item \href{#method-seqlist-set_mixture_probabilities}{\code{seqlist$set_mixture_probabilities()}}
@@ -47,7 +48,7 @@ prior}
 Create a new `seqlist`
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{seqlist$new(
-  counts,
+  counts = NULL,
   tags = NULL,
   fixed_design = NULL,
   random_design = NULL,
@@ -72,7 +73,24 @@ Create a new `seqlist`
 }
 \subsection{Returns}{
 A new `seqlist` object
-set the `fixed_design` field
+set the `counts` field
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-seqlist-set_counts"></a>}}
+\if{latex}{\out{\hypertarget{method-seqlist-set_counts}{}}}
+\subsection{Method \code{set_counts()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{seqlist$set_counts(counts)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{counts}}{the counts to use
+set the `fixed_design` field}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

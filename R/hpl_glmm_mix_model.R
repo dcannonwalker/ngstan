@@ -21,13 +21,13 @@ run_hpl_glmm_mix_model <- function(standata,
   standata[["run_estimation"]] <- run_estimation
 
   if (!run_estimation) {
-    standata[["counts"]] <- standata$counts %||% matrix( # nolint
+    standata[["y"]] <- standata[["y"]] %||% matrix( # nolint
       nrow = standata$G, ncol = standata$N_g, byrow = TRUE,
       rpois(standata$G * standata$N_g, 10)
     ) # allow null counts if run_estimation == 0
   } else {
-    if (is.null(standata$counts)) {
-      stop("counts cannot be NULL if run_estimation != 0")
+    if (is.null(standata[["y"]])) {
+      stop("'y' cannot be NULL if run_estimation != 0")
     }
   }
 
