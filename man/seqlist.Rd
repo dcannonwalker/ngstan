@@ -24,6 +24,8 @@ each regression parameter is drawn from the 0-component of the mixture
 prior}
 
 \item{\code{standata}}{List of data to be passed to Stan}
+
+\item{\code{fit}}{Fit object returned by `run_model()`}
 }
 \if{html}{\out{</div>}}
 }
@@ -166,76 +168,13 @@ Set the value of one of the modifiable elements of `standata`}
 \if{latex}{\out{\hypertarget{method-seqlist-set_standata}{}}}
 \subsection{Method \code{set_standata()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{seqlist$set_standata(
-  a_sig2 = NULL,
-  b_sig2 = NULL,
-  a_sig2_mu = NULL,
-  b_sig2_mu = NULL,
-  a_mu_offset = NULL,
-  b_mu_offset = NULL,
-  a_sig2_offset = NULL,
-  b_sig2_offset = NULL,
-  a_sig2_u = NULL,
-  b_sig2_u = NULL,
-  beta_phi_prior = NULL,
-  A_S = NULL,
-  B_S = NULL,
-  S_DATA = NULL,
-  normfactors_known = NULL,
-  use_neg_binomial_response = NULL
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{seqlist$set_standata(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{a_sig2}}{vector of shape parameters
-for Inverse Gamma priors on `sig2`}
-
-\item{\code{b_sig2}}{vector of scale parameters
-for Inverse Gamma priors on `sig2`}
-
-\item{\code{a_sig2_mu}}{vector of shape parameters
-for Inverse Gamma priors on `sig2_mu`}
-
-\item{\code{b_sig2_mu}}{vector of scale parameters
-for Inverse Gamma priors on `sig2_mu`}
-
-\item{\code{a_mu_offset}}{vector of shape parameters
-for Inverse Gamma priors on `mu_offset`}
-
-\item{\code{b_mu_offset}}{vector of scale parameters
-for Inverse Gamma priors on `mu_offset`}
-
-\item{\code{a_sig2_offset}}{vector of shape parameters
-for Inverse Gamma priors on `sig2_offset`}
-
-\item{\code{b_sig2_offset}}{vector of scale parameters
-for Inverse Gamma priors on `sig2_offset`}
-
-\item{\code{a_sig2_u}}{vector of shape parameters
-for Inverse Gamma priors on `sig2_u`}
-
-\item{\code{b_sig2_u}}{vector of scale parameters
-for Inverse Gamma priors on `sig2_u`}
-
-\item{\code{beta_phi_prior}}{2-vector giving location and scale parameters for
-the prior distribution of `beta_phi`}
-
-\item{\code{A_S}}{location parameter for `S_PARAM` if `!normfactors_known`}
-
-\item{\code{B_S}}{scale parameter for `S_PARAM` if `!normfactors_known`}
-
-\item{\code{S_DATA}}{Numeric vector of normalization factors
-for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
-normalization factors will be estimated by the `TMM` method as
-described in the `{edgeR}` package}
-
-\item{\code{normfactors_known}}{Use fixed normalization factors extrinsic to
-the model?}
-
-\item{\code{use_neg_binomial_response}}{Use the negative binomial distribution
-instead of Poisson for the errors?
+\item{\code{...}}{arguments passed to `ngstan::set_standata()`
 run the model}
 }
 \if{html}{\out{</div>}}
@@ -251,6 +190,7 @@ run the model}
   run_estimation = FALSE,
   use_multithread = FALSE,
   grainsize = NULL,
+  modify_in_place = TRUE,
   ...
 )}\if{html}{\out{</div>}}
 }
@@ -265,6 +205,9 @@ run the model}
 \item{\code{use_multithread}}{use the multithread-enabled model?}
 
 \item{\code{grainsize}}{grainsize for multithread}
+
+\item{\code{modify_in_place}}{add the fit to the `seqlist` object? otherwise
+return it}
 
 \item{\code{...}}{arguments passed to the `{cmdstanr}` function
 identified by `method`}

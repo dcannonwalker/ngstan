@@ -3,4 +3,5 @@
 export(calc_norm_factors)
 export(run_hpl_glmm_mix_model)
 export(seqlist)
+export(set_standata)
 importFrom(instantiate,stan_package_model)

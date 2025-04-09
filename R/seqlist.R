@@ -1,4 +1,3 @@
-
 #' R6 class representing data from an RNA-Seq or Ribo-Seq experiment
 #'
 #' @description
@@ -24,6 +23,8 @@ seqlist <- R6::R6Class(
     mixture_probabilities = NULL,
     #' @field standata List of data to be passed to Stan
     standata = NULL,
+    #' @field fit Fit object returned by `run_model()`
+    fit = NULL,
     #' @description Create a new `seqlist`
     #'
     #' @param counts Value for `counts` field
@@ -48,21 +49,25 @@ seqlist <- R6::R6Class(
     #' @param counts the counts to use
     set_counts = function(counts) {
       self$counts <- counts
+      invisible(self)
     },
     #' set the `fixed_design` field
     #' @param fixed_design the fixed design matrix to use
     set_fixed_design = function(fixed_design) {
       self$fixed_design <- fixed_design
+      invisible(self)
     },
     #' set the `random_design` matrix field
     #' @param random_design the random design matrix to use
     set_random_design = function(random_design) {
       self$random_design <- random_design
+      invisible(self)
     },
     #' set the `mixture_probabilities` field
     #' @param mixture_probabilities the vector of mixture probabilities
     set_mixture_probabilities = function(mixture_probabilities) {
       self$mixture_probabilities <- mixture_probabilities
+      invisible(self)
     },
     #' set the `standata` field
     #' @param ... arguments passed to private methods
@@ -71,76 +76,41 @@ seqlist <- R6::R6Class(
         message("Not intitializing 'standata' because 'fixed_design' not set")
       } else {
         self$standata <- private$make_standata(...)
+        invisible(self)
       }
     },
     #' Set the value of one of the modifiable elements of `standata`
-    #' @param beta_phi_prior 2-vector giving location and scale parameters for
-    #' the prior distribution of `beta_phi`
-    #' @param S_DATA Numeric vector of normalization factors
-    #' for each sample; optional, if `NULL` and `normfactors_known == TRUE`,
-    #' normalization factors will be estimated by the `TMM` method as
-    #' described in the `{edgeR}` package
-    #' @param A_S location parameter for `S_PARAM` if `!normfactors_known`
-    #' @param B_S scale parameter for `S_PARAM` if `!normfactors_known`
-    #' @param a_sig2 vector of shape parameters
-    #' for Inverse Gamma priors on `sig2`
-    #' @param b_sig2 vector of scale parameters
-    #' for Inverse Gamma priors on `sig2`
-    #' @param a_sig2_mu vector of shape parameters
-    #' for Inverse Gamma priors on `sig2_mu`
-    #' @param b_sig2_mu vector of scale parameters
-    #' for Inverse Gamma priors on `sig2_mu`
-    #' @param a_mu_offset vector of shape parameters
-    #' for Inverse Gamma priors on `mu_offset`
-    #' @param b_mu_offset vector of scale parameters
-    #' for Inverse Gamma priors on `mu_offset`
-    #' @param a_sig2_offset vector of shape parameters
-    #' for Inverse Gamma priors on `sig2_offset`
-    #' @param b_sig2_offset vector of scale parameters
-    #' for Inverse Gamma priors on `sig2_offset`
-    #' @param a_sig2_u vector of shape parameters
-    #' for Inverse Gamma priors on `sig2_u`
-    #' @param b_sig2_u vector of scale parameters
-    #' for Inverse Gamma priors on `sig2_u`
-    #' @param normfactors_known Use fixed normalization factors extrinsic to
-    #' the model?
-    #' @param use_neg_binomial_response Use the negative binomial distribution
-    #' instead of Poisson for the errors?
-    set_standata = function(a_sig2 = NULL,
-                            b_sig2 = NULL,
-                            a_sig2_mu = NULL,
-                            b_sig2_mu = NULL,
-                            a_mu_offset = NULL,
-                            b_mu_offset = NULL,
-                            a_sig2_offset = NULL,
-                            b_sig2_offset = NULL,
-                            a_sig2_u = NULL,
-                            b_sig2_u = NULL,
-                            beta_phi_prior = NULL,
-                            A_S = NULL,
-                            B_S = NULL,
-                            S_DATA = NULL,
-                            normfactors_known = NULL,
-                            use_neg_binomial_response = NULL) {
-
+    #' @param ... arguments passed to `ngstan::set_standata()`
+    set_standata = function(...) {
+      self$standata <- set_standata(self$standata, ...)
+      invisible(self)
     },
     #' run the model
     #' @param method the sampling algorithm to use
     #' @param run_estimation include the likelihood in the objective?
     #' @param use_multithread use the multithread-enabled model?
     #' @param grainsize grainsize for multithread
+    #' @param modify_in_place add the fit to the `seqlist` object? otherwise
+    #' return it
     #' @param ... arguments passed to the `{cmdstanr}` function
     #' identified by `method`
     run_model = function(method = c("sample", "vb", "pathfinder"),
                    run_estimation = FALSE,
                    use_multithread = FALSE,
-                   grainsize = NULL, ...) {
+                   grainsize = NULL,
+                   modify_in_place = TRUE,
+                   ...) {
       fit <- run_hpl_glmm_mix_model(standata = self$standata, method = method,
                              run_estimation = run_estimation,
                              use_multithread = use_multithread,
                              grainsize = grainsize,
                              ...)
-      return(fit)
+      if (modify_in_place) {
+        self$fit <- fit
+        invisible(self)
+      } else{
+        return(fit)
+      }
     }
   ),
   private = list(
