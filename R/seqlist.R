@@ -95,20 +95,22 @@ seqlist <- R6::R6Class(
     #' @param ... arguments passed to the `{cmdstanr}` function
     #' identified by `method`
     run_model = function(method = c("sample", "vb", "pathfinder"),
-                   run_estimation = FALSE,
-                   use_multithread = FALSE,
-                   grainsize = NULL,
-                   modify_in_place = TRUE,
-                   ...) {
-      fit <- run_hpl_glmm_mix_model(standata = self$standata, method = method,
-                             run_estimation = run_estimation,
-                             use_multithread = use_multithread,
-                             grainsize = grainsize,
-                             ...)
+                         run_estimation = FALSE,
+                         use_multithread = FALSE,
+                         grainsize = NULL,
+                         modify_in_place = TRUE,
+                         ...) {
+      fit <- run_hpl_glmm_mix_model(
+        standata = self$standata, method = method,
+        run_estimation = run_estimation,
+        use_multithread = use_multithread,
+        grainsize = grainsize,
+        ...
+      )
       if (modify_in_place) {
         self$fit <- fit
         invisible(self)
-      } else{
+      } else {
         return(fit)
       }
     }

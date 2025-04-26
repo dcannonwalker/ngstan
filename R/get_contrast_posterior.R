@@ -17,6 +17,8 @@ get_contrast_posterior <- function(contrast, comps, d_pmf, beta) {
   weighted_contrast_comp_eval_draws <- contrast_eval_draws * d_pmf
 
   # `contrast_posterior` is the
-  contrast_posterior <- apply(weighted_contrast_comp_eval_draws,
-                              c(1, 2, 3), function(g) sum(g))
+  contrast_posterior <- apply(
+    weighted_contrast_comp_eval_draws,
+    c(1, 2, 3), function(g) sum(g)
+  )
 }

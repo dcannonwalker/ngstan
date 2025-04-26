@@ -47,9 +47,9 @@ run_hpl_glmm_mix_model <- function(standata,
   }
 
   fit <- switch(method,
-                sample = model$sample(data = standata, ...),
-                vb = model$variational(data = standata, ...),
-                pathfinder = model$pathfinder(data = standata, ...)
+    sample = model$sample(data = standata, ...),
+    vb = model$variational(data = standata, ...),
+    pathfinder = model$pathfinder(data = standata, ...)
   )
   return(fit)
 }

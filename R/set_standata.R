@@ -33,7 +33,7 @@
 #' @param use_neg_binomial_response Use the negative binomial distribution
 #' instead of Poisson for the errors?
 #' @export
-set_standata = function(
+set_standata <- function(
     standata,
     a_sig2 = NULL,
     b_sig2 = NULL,
@@ -51,7 +51,6 @@ set_standata = function(
     S_DATA = NULL,
     normfactors_known = NULL,
     use_neg_binomial_response = NULL) {
-
   if (!is.null(a_sig2)) {
     if (length(a_sig2) != length(standata[["a_sig2"]])) {
       warning("The new value of 'a_sig2' does not have the same dimension")
