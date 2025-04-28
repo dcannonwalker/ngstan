@@ -16,7 +16,7 @@ A data frame with 15,668 rows and 9 columns:
 }
 }
 \source{
-<https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0009317#s5>
+<https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0009317#s5> # nolint
 }
 \usage{
 tuch_tumor

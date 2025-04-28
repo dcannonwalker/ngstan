@@ -70,6 +70,8 @@ normfactors
 Overexpression
 pak
 PARAM
+plos
+plosone
 pmf
 poisson
 pre
@@ -97,6 +99,8 @@ testthat
 TMM
 translational
 Translational
+Tuch
+tuch
 usethis
 Ushey
 usr
