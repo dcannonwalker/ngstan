@@ -40,5 +40,5 @@
 #'  \item{8n, 8t, 33n, 33t, 51n, 51t}{Gene expression counts
 #'  for each sample}
 #' }
-#' @source <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0009317#s5>
+#' @source <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0009317#s5> # nolint
 "tuch_tumor"
