@@ -27,7 +27,10 @@ Suggests:
     knitr,
     posterior,
     readr,
+    readxl,
     rmarkdown,
+    snakecase,
+    stringr,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Remotes: stan-dev/cmdstanr
