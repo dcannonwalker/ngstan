@@ -75,6 +75,7 @@ poisson
 pre
 PRJNA
 readr
+readxl
 Redistributions
 relicensing
 rf
@@ -84,8 +85,10 @@ rng
 RoxygenNote
 seqlist
 sig
+snakecase
 stan
 standata
+stringr
 sublicense
 sublicenses
 Sublicensing
