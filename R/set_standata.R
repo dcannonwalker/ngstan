@@ -52,154 +52,67 @@ set_standata <- function(
     normfactors_known = NULL,
     use_neg_binomial_response = NULL) {
   if (!is.null(a_sig2)) {
-    if (length(a_sig2) !=
-      length(standata[["a_sig2"]])) {
-      warning(
-        "The new value of 'a_sig2' does not have the same dimension"
-      )
-    }
     standata[["a_sig2"]] <- a_sig2
   }
 
   if (!is.null(b_sig2)) {
-    if (length(b_sig2) !=
-      length(standata[["b_sig2"]])) {
-      warning(
-        "The new value of 'b_sig2' does not have the same dimension"
-      )
-    }
     standata[["b_sig2"]] <- b_sig2
   }
 
   if (!is.null(a_sig2_mu)) {
-    if (length(a_sig2_mu) !=
-      length(standata[["a_sig2_mu"]])) {
-      warning(
-        "The new value of 'a_sig2_mu' does not have the same dimension"
-      )
-    }
     standata[["a_sig2_mu"]] <- a_sig2_mu
   }
 
   if (!is.null(b_sig2_mu)) {
-    if (length(b_sig2_mu) !=
-      length(standata[["b_sig2_mu"]])) {
-      warning(
-        "The new value of 'b_sig2_mu' does not have the same dimension"
-      )
-    }
     standata[["b_sig2_mu"]] <- b_sig2_mu
   }
 
   if (!is.null(a_mu_offset)) {
-    if (length(a_mu_offset) !=
-      length(standata[["a_mu_offset"]])) {
-      warning(
-        "The new value of 'a_mu_offset' does not have the same dimension"
-      )
-    }
     standata[["a_mu_offset"]] <- a_mu_offset
   }
 
   if (!is.null(b_mu_offset)) {
-    if (length(b_mu_offset) !=
-      length(standata[["b_mu_offset"]])) {
-      warning(
-        "The new value of 'b_mu_offset' does not have the same dimension"
-      )
-    }
     standata[["b_mu_offset"]] <- b_mu_offset
   }
 
   if (!is.null(a_sig2_offset)) {
-    if (length(a_sig2_offset) !=
-      length(standata[["a_sig2_offset"]])) {
-      warning(
-        "The new value of 'a_sig2_offset' does not have the same dimension"
-      )
-    }
     standata[["a_sig2_offset"]] <- a_sig2_offset
   }
 
   if (!is.null(b_sig2_offset)) {
-    if (length(b_sig2_offset) !=
-      length(standata[["b_sig2_offset"]])) {
-      warning(
-        "The new value of 'b_sig2_offset' does not have the same dimension"
-      )
-    }
     standata[["b_sig2_offset"]] <- b_sig2_offset
   }
 
   if (!is.null(a_sig2_u)) {
-    if (length(a_sig2_u) !=
-      length(standata[["a_sig2_u"]])) {
-      warning("The new value of 'a_sig2_u' does not have the same dimension")
-    }
     standata[["a_sig2_u"]] <- a_sig2_u
   }
 
   if (!is.null(b_sig2_u)) {
-    if (length(b_sig2_u) !=
-      length(standata[["b_sig2_u"]])) {
-      warning("The new value of 'b_sig2_u' does not have the same dimension")
-    }
     standata[["b_sig2_u"]] <- b_sig2_u
   }
 
   if (!is.null(beta_phi_prior)) {
-    if (length(beta_phi_prior) !=
-      length(standata[["beta_phi_prior"]])) {
-      warning(
-        "The new value of 'beta_phi_prior' does not have the same dimension"
-      )
-    }
     standata[["beta_phi_prior"]] <- beta_phi_prior
   }
 
   if (!is.null(A_S)) {
-    if (length(A_S) !=
-      length(standata[["A_S"]])) {
-      warning("The new value of 'A_S' does not have the same dimension")
-    }
     standata[["A_S"]] <- A_S
   }
 
   if (!is.null(B_S)) {
-    if (length(B_S) !=
-      length(standata[["B_S"]])) {
-      warning("The new value of 'B_S' does not have the same dimension")
-    }
     standata[["B_S"]] <- B_S
   }
 
   if (!is.null(S_DATA)) {
-    if (length(S_DATA) !=
-      length(standata[["S_DATA"]])) {
-      warning(
-        "The new value of 'S_DATA' does not have the same dimension"
-      )
-    }
     standata[["S_DATA"]] <- S_DATA
   }
 
   if (!is.null(normfactors_known)) {
-    if (length(normfactors_known) !=
-      length(standata[["normfactors_known"]])) {
-      warning(
-        "The new value of 'normfactors_known' does not have the same dimension"
-      )
-    }
     standata[["normfactors_known"]] <- normfactors_known
   }
 
   if (!is.null(use_neg_binomial_response)) {
-    if (length(use_neg_binomial_response) !=
-      length(standata[["use_neg_binomial_response"]])) {
-      warning(
-        "The new value of 'use_neg_binomial_response' does not have the same dimension" # nolint
-      )
-    }
+    standata[["use_neg_binomial_response"]] <- use_neg_binomial_response
   }
   return(standata)
 }
