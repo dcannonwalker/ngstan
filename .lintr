@@ -1,4 +1,5 @@
 linters: linters_with_defaults(
     object_name_linter(styles = c("UPPERCASE", "SNAKE_CASE", "snake_case", "symbols"),
-                       regexes = c("X_*", "N_*", "Z_*"))
+                       regexes = c("X_*", "N_*", "Z_*")),
+    cyclocomp_linter(complexity_limit = 17L)
   )
