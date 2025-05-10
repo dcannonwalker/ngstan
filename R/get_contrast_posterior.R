@@ -1,3 +1,11 @@
+#' Get per-draw probability that a given contrast is 0
+#'
+#' @param contrast numeric vector giving the contrast
+#' @param comps taken from `standata` list
+#' @param d_pmf posterior draws for `d_mpf`
+#' @param beta posterior draws for `beta`
+#'
+#' @export
 get_contrast_posterior <- function(contrast, comps, d_pmf, beta) {
   # TBD: the posterior probability that any contrast is 0 while
   # any beta is drawn from the non-zero component of the mixture
@@ -14,7 +22,7 @@ get_contrast_posterior <- function(contrast, comps, d_pmf, beta) {
   # d_pmf, for any element of the sample space where all relevent
   # betas are drawn from their zero component
   # 0, otherwise
-  weighted_contrast_comp_eval_draws <- contrast_eval_draws * d_pmf
+  weighted_contrast_comp_eval_draws <- contrast_comp_eval_draws * d_pmf
 
   # `contrast_posterior` is the
   contrast_posterior <- apply(
