@@ -13,7 +13,7 @@ the experimental design and model specification.
 \item{\code{counts}}{Numeric matrix of output value, where rows represent genes
 or tags and columns represent samples}
 
-\item{\code{tags}}{A dataframe of tag metadata, matching the row-order of `counts`}
+\item{\code{tags}}{A dataframe of tag metadata, matching the row-order of `counts` # nolint}
 
 \item{\code{fixed_design}}{Fixed effects design matrix for a single group}
 

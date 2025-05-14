@@ -11,7 +11,7 @@ seqlist <- R6::R6Class(
     #' @field counts Numeric matrix of output value, where rows represent genes
     #' or tags and columns represent samples
     counts = NULL,
-    #' @field tags A dataframe of tag metadata, matching the row-order of `counts`
+    #' @field tags A dataframe of tag metadata, matching the row-order of `counts` # nolint
     tags = NULL,
     #' @field fixed_design Fixed effects design matrix for a single group
     fixed_design = NULL,
@@ -40,9 +40,9 @@ seqlist <- R6::R6Class(
       self$counts <- as.matrix(counts)
       self$tags <- tags
       self$fixed_design <- fixed_design
-      self$random_design <- random_design %||% matrix(data = numeric(), ncol = 0)
+      self$random_design <- random_design %||% matrix(data = numeric(), ncol = 0) # nolint
       if (!is.null(fixed_design)) {
-        mixture_probabilities <- mixture_probabilities %||% rep(1, ncol(fixed_design))
+        mixture_probabilities <- mixture_probabilities %||% rep(1, ncol(fixed_design)) # nolint
       }
     },
     #' set the `counts` field
@@ -132,7 +132,7 @@ seqlist <- R6::R6Class(
       mix_idx <- matrix(nrow = N_mix, ncol = comps_per_mix)
       if (N_mix > 0) {
         for (i in seq(1, N_mix)) {
-          mix_idx[i, ] <- which(apply(comps, 1, function(r) r[which_mix[i]] == 1))
+          mix_idx[i, ] <- which(apply(comps, 1, function(r) r[which_mix[i]] == 1)) # nolint
         }
       }
 
