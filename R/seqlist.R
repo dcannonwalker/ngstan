@@ -51,10 +51,18 @@ seqlist <- R6::R6Class(
       self$counts <- counts
       invisible(self)
     },
-    #' filter the `counts` field
+    #' filter the `counts` and `tags` fields
     #' @param keep logical vector indicating which rows to keep
-    filter_counts = function(keep) {
+    filter = function(keep) {
       self$counts <- self$counts[keep, ]
+      self$tags <- self$tags[keep, ]
+      invisible(self)
+    },
+    #' order the `counts` and `tags` fields
+    #' @param index numeric vector ordering the rows
+    arrange = function(index) {
+      self$counts <- self$counts[index, ]
+      self$tags <- self$tags[index, ]
       invisible(self)
     },
     #' set the `fixed_design` field
