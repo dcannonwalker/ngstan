@@ -1,13 +1,21 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://dcannonwalker.github.io/ngstan/404.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/LICENSE.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/articles/differential_expression_analysis.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/articles/index.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/authors.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/index.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/reference/build_mixture_indicator.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/reference/build_mixture_probabilities.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/reference/calc_norm_factors.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/reference/dte.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/reference/get_contrast_posterior.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/reference/get_sim.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/reference/index.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/reference/mov10.html</loc></url>
 <url><loc>https://dcannonwalker.github.io/ngstan/reference/run_hpl_glmm_mix_model.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/reference/seqlist.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/reference/set_standata.html</loc></url>
+<url><loc>https://dcannonwalker.github.io/ngstan/reference/tuch_tumor.html</loc></url>
 </urlset>
 
