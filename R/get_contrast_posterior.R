@@ -22,11 +22,10 @@ get_contrast_posterior <- function(contrast, comps, d_pmf, beta) {
   # d_pmf, for any element of the sample space where all relevent
   # betas are drawn from their zero component
   # 0, otherwise
-  weighted_contrast_comp_eval_draws <- contrast_comp_eval_draws * d_pmf
+  wt_contrast_comp_eval_draws <- contrast_comp_eval_draws * d_pmf
 
-  # `contrast_posterior` is the
-  contrast_posterior <- apply(
-    weighted_contrast_comp_eval_draws,
+  apply(
+    wt_contrast_comp_eval_draws,
     c(1, 2, 3), function(g) sum(g)
   )
 }
