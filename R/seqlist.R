@@ -56,7 +56,7 @@ seqlist <- R6::R6Class(
     filter_counts = function(keep) {
       self$counts <- self$counts[keep, ]
       invisible(self)
-    }
+    },
     #' set the `fixed_design` field
     #' @param fixed_design the fixed design matrix to use
     set_fixed_design = function(fixed_design) {
