@@ -3,7 +3,7 @@ pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   differential_expression_analysis: differential_expression_analysis.html
-last_built: 2025-05-14T14:13Z
+last_built: 2025-05-14T17:29Z
 urls:
   reference: https://dcannonwalker.github.io/ngstan/reference
   article: https://dcannonwalker.github.io/ngstan/articles
