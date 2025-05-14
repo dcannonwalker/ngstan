@@ -8,6 +8,7 @@ work_notes
 # raw data files
 *.txt
 *.tsv
+*.xls
 
 # /
 
@@ -50,3 +51,6 @@ next_*
 # scratch
 scratch
 docs
+
+# raw data files
+*.tsv

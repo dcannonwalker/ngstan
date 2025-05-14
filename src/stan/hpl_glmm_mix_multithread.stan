@@ -193,11 +193,13 @@ generated quantities {
     }
   }
   array[G] vector[N_mix] p_dg;
+  array[G] vector[N_comps] d_pmf;
   for (i in 1:N_mix) {
     for (g in 1:G) {
-      real numerator = sum(exp(lp[g][mix_idx[i]]));
+      vector[N_comps] numerator = exp(lp[g]);
       real denominator = sum(exp(lp[g]));
-      p_dg[g][i] = numerator / denominator;
+      p_dg[g][i] = sum(numerator[mix_idx[i]]) / denominator;
+      d_pmf[g] = numerator / denominator;
     }
   }
   array[G, N_g] int y_sim;

@@ -14,6 +14,7 @@ Imports:
     fs,
     instantiate,
     pak,
+    R6,
     usethis
 Additional_repositories:
   https://mc-stan.org/r-packages/
@@ -25,7 +26,11 @@ License: GPL (>= 3)
 Suggests: 
     knitr,
     posterior,
+    readr,
+    readxl,
     rmarkdown,
+    snakecase,
+    stringr,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Remotes: stan-dev/cmdstanr
