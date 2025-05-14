@@ -11,7 +11,7 @@ seqlist <- R6::R6Class(
     #' @field counts Numeric matrix of output value, where rows represent genes
     #' or tags and columns represent samples
     counts = NULL,
-    #' @field tags A dataframe of tag metadata, matching the row-order of `counts` # nolint
+    #' @field tags A dataframe of tag metadata, matching the row-order of `counts`
     tags = NULL,
     #' @field fixed_design Fixed effects design matrix for a single group
     fixed_design = NULL,
