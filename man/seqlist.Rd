@@ -34,7 +34,8 @@ prior}
 \itemize{
 \item \href{#method-seqlist-new}{\code{seqlist$new()}}
 \item \href{#method-seqlist-set_counts}{\code{seqlist$set_counts()}}
-\item \href{#method-seqlist-filter_counts}{\code{seqlist$filter_counts()}}
+\item \href{#method-seqlist-filter}{\code{seqlist$filter()}}
+\item \href{#method-seqlist-arrange}{\code{seqlist$arrange()}}
 \item \href{#method-seqlist-set_fixed_design}{\code{seqlist$set_fixed_design()}}
 \item \href{#method-seqlist-set_random_design}{\code{seqlist$set_random_design()}}
 \item \href{#method-seqlist-set_mixture_probabilities}{\code{seqlist$set_mixture_probabilities()}}
@@ -91,23 +92,40 @@ set the `counts` field
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{counts}}{the counts to use
-filter the `counts` field}
+filter the `counts` and `tags` fields}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-seqlist-filter_counts"></a>}}
-\if{latex}{\out{\hypertarget{method-seqlist-filter_counts}{}}}
-\subsection{Method \code{filter_counts()}}{
+\if{html}{\out{<a id="method-seqlist-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-seqlist-filter}{}}}
+\subsection{Method \code{filter()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{seqlist$filter_counts(keep)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{seqlist$filter(keep)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{keep}}{logical vector indicating which rows to keep
+order the `counts` and `tags` fields}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-seqlist-arrange"></a>}}
+\if{latex}{\out{\hypertarget{method-seqlist-arrange}{}}}
+\subsection{Method \code{arrange()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{seqlist$arrange(index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{numeric vector ordering the rows
 set the `fixed_design` field}
 }
 \if{html}{\out{</div>}}
