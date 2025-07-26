@@ -11,7 +11,7 @@ functions {
       int n_comps = size(prob);
       vector[n_comps] comps;
       for (i in 1:n_comps) {
-        comps[i] = prob[i];
+        comps[i] = log(prob[i]);
         if (run_estimation == 1) {
           // comps[i] += poisson_log_lpmf(y | log_lambda[i]);
           // comps[i] += poisson_log_glm_lupmf(y |
@@ -38,7 +38,7 @@ functions {
         int n_comps = size(prob);
         vector[n_comps] comps;
         for (i in 1:n_comps) {
-          comps[i] = prob[i];
+          comps[i] = log(prob[i]);
           if (run_estimation == 1) {
             comps[i] += neg_binomial_2_log_glm_lpmf(y |
             design_comps[i],
@@ -189,7 +189,7 @@ generated quantities {
   for (g in 1:G) {
     for (i in 1:N_comps) {
       log_lambda[g, i] = log_offset[g] + X_g_comps[i] * beta[g] + Z_g * u[g] + S;
-      lp[g, i] = prob[i] + poisson_log_lpmf(y[g] | log_lambda[g, i]);
+      lp[g, i] = log(prob[i]) + poisson_log_lpmf(y[g] | log_lambda[g, i]);
     }
   }
   array[G] vector[N_mix] p_dg;
