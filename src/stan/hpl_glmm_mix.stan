@@ -14,7 +14,7 @@ functions {
         if (size(log_lambda[i]) != size(y)) {
           fatal_error("size(log_lambda[i]) must match size(y)");
         }
-        comps[i] = prob[i];
+        comps[i] = log(prob[i]);
         if (run_estimation == 1) {
           comps[i] += poisson_log_lpmf(y | log_lambda[i]);
         }
@@ -37,7 +37,7 @@ functions {
           if (size(log_lambda[i]) != size(y)) {
             fatal_error("size(log_lambda[i]) must match size(y)");
           }
-          comps[i] = prob[i];
+          comps[i] = log(prob[i]);
           if (run_estimation == 1) {
             comps[i] += neg_binomial_2_log_lpmf(y | log_lambda[i], phi);
           }
