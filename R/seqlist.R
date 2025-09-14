@@ -186,14 +186,13 @@ seqlist <- R6::R6Class(
                                     A_S = NULL,
                                     B_S = NULL,
                                     S_DATA = NULL,
-                                    normfactors_known = NULL,
-                                    use_neg_binomial_response = NULL) {
+                                    normfactors_known = NULL
+                                    ) {
       K <- mandatory_standata$K
       U <- mandatory_standata$U
       N_g <- mandatory_standata$N_g
 
       normfactors_known <- normfactors_known %||% FALSE # nolint
-      use_neg_binomial_response <- use_neg_binomial_response %||% FALSE # nolint
       if (normfactors_known) {
         # TODO: use calc_norm_factors() instead
         S_DATA <- S_DATA %||% rep(0, N_g) # nolint
@@ -203,11 +202,6 @@ seqlist <- R6::R6Class(
         S_DATA <- numeric(0)
         A_S <- A_S %||% rep(0, N_g) # nolint
         B_S <- B_S %||% rep(0.1, N_g) # nolint
-      }
-      if (use_neg_binomial_response) {
-        beta_phi_prior <- beta_phi_prior %||% c(0, 1) # nolint
-      } else {
-        beta_phi_prior <- numeric(0)
       }
 
       optional_priors <- list(
@@ -225,7 +219,6 @@ seqlist <- R6::R6Class(
         S_DATA = S_DATA,
         A_S = A_S,
         B_S = B_S,
-        use_neg_binomial_response = use_neg_binomial_response,
         beta_phi_prior = beta_phi_prior
       )
       return(optional_priors)
