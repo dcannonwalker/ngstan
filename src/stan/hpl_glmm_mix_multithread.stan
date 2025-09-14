@@ -194,10 +194,12 @@ generated quantities {
   }
   array[G] vector[N_mix] p_dg;
   array[G] vector[N_comps] d_pmf;
+  array[G] vector[N_comps] numerator;
+  array[G] real denominator;
   for (i in 1:N_mix) {
     for (g in 1:G) {
-      vector[N_comps] numerator = exp(lp[g]);
-      real denominator = sum(exp(lp[g]));
+      numerator[g] = exp(lp[g]);
+      denominator[g] = sum(exp(lp[g]));
       p_dg[g][i] = sum(numerator[mix_idx[i]]) / denominator;
       d_pmf[g] = numerator / denominator;
     }
@@ -213,4 +215,6 @@ generated quantities {
       y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
     }
   }
+  array[N_comps] matrix[N_g, K] X_g_comps_out = X_g_comps;
+  matrix[N_g, U] Z_g_out = Z_g;
 }
