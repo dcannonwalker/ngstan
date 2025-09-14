@@ -200,8 +200,8 @@ generated quantities {
     for (g in 1:G) {
       numerator[g] = exp(lp[g]);
       denominator[g] = sum(exp(lp[g]));
-      p_dg[g][i] = sum(numerator[mix_idx[i]]) / denominator;
-      d_pmf[g] = numerator / denominator;
+      p_dg[g][i] = sum(numerator[g][mix_idx[i]]) / denominator[g];
+      d_pmf[g] = numerator[g] / denominator[g];
     }
   }
   array[G, N_g] int y_sim;
