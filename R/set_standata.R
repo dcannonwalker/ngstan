@@ -43,7 +43,6 @@ set_standata <- function(
     b_sig2_offset = NULL,
     a_sig2_u = NULL,
     b_sig2_u = NULL,
-    beta_phi_prior = NULL,
     A_S = NULL,
     B_S = NULL,
     S_DATA = NULL,

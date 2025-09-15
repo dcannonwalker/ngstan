@@ -182,7 +182,6 @@ seqlist <- R6::R6Class(
                                     b_sig2_offset = NULL,
                                     a_sig2_u = NULL,
                                     b_sig2_u = NULL,
-                                    beta_phi_prior = NULL,
                                     A_S = NULL,
                                     B_S = NULL,
                                     S_DATA = NULL,
@@ -218,8 +217,7 @@ seqlist <- R6::R6Class(
         normfactors_known = normfactors_known,
         S_DATA = S_DATA,
         A_S = A_S,
-        B_S = B_S,
-        beta_phi_prior = beta_phi_prior
+        B_S = B_S
       )
       return(optional_priors)
     },
