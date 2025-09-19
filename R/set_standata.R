@@ -46,8 +46,7 @@ set_standata <- function(
     A_S = NULL,
     B_S = NULL,
     S_DATA = NULL,
-    normfactors_known = NULL
-    ) {
+    normfactors_known = NULL) {
   if (!is.null(a_sig2)) {
     standata[["a_sig2"]] <- a_sig2
   }

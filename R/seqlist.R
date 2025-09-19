@@ -185,8 +185,7 @@ seqlist <- R6::R6Class(
                                     A_S = NULL,
                                     B_S = NULL,
                                     S_DATA = NULL,
-                                    normfactors_known = NULL
-                                    ) {
+                                    normfactors_known = NULL) {
       K <- mandatory_standata$K
       U <- mandatory_standata$U
       N_g <- mandatory_standata$N_g
