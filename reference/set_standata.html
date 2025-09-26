@@ -53,12 +53,10 @@
 <span>  b_sig2_offset <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  a_sig2_u <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  b_sig2_u <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  beta_phi_prior <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  A_S <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  B_S <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  S_DATA <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  normfactors_known <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  use_neg_binomial_response <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  normfactors_known <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -120,11 +118,6 @@ for Inverse Gamma priors on `sig2_u`</p></dd>
 for Inverse Gamma priors on `sig2_u`</p></dd>
 
 
-<dt id="arg-beta-phi-prior">beta_phi_prior<a class="anchor" aria-label="anchor" href="#arg-beta-phi-prior"></a></dt>
-<dd><p>2-vector giving location and scale parameters for
-the prior distribution of `beta_phi`</p></dd>
-
-
 <dt id="arg-a-s">A_S<a class="anchor" aria-label="anchor" href="#arg-a-s"></a></dt>
 <dd><p>location parameter for `S_PARAM` if `!normfactors_known`</p></dd>
 
@@ -145,9 +138,9 @@ described in the `edgeR` package</p></dd>
 the model?</p></dd>
 
 
-<dt id="arg-use-neg-binomial-response">use_neg_binomial_response<a class="anchor" aria-label="anchor" href="#arg-use-neg-binomial-response"></a></dt>
-<dd><p>Use the negative binomial distribution
-instead of Poisson for the errors?</p></dd>
+<dt id="arg-beta-phi-prior">beta_phi_prior<a class="anchor" aria-label="anchor" href="#arg-beta-phi-prior"></a></dt>
+<dd><p>2-vector giving location and scale parameters for
+the prior distribution of `beta_phi`</p></dd>
 
 </dl></div>
 
