@@ -30,8 +30,6 @@
 #' for Inverse Gamma priors on `sig2_u`
 #' @param normfactors_known Use fixed normalization factors extrinsic to
 #' the model?
-#' @param use_neg_binomial_response Use the negative binomial distribution
-#' instead of Poisson for the errors?
 #' @export
 set_standata <- function(
     standata,
@@ -45,12 +43,10 @@ set_standata <- function(
     b_sig2_offset = NULL,
     a_sig2_u = NULL,
     b_sig2_u = NULL,
-    beta_phi_prior = NULL,
     A_S = NULL,
     B_S = NULL,
     S_DATA = NULL,
-    normfactors_known = NULL,
-    use_neg_binomial_response = NULL) {
+    normfactors_known = NULL) {
   if (!is.null(a_sig2)) {
     standata[["a_sig2"]] <- a_sig2
   }
@@ -111,8 +107,5 @@ set_standata <- function(
     standata[["normfactors_known"]] <- normfactors_known
   }
 
-  if (!is.null(use_neg_binomial_response)) {
-    standata[["use_neg_binomial_response"]] <- use_neg_binomial_response
-  }
   return(standata)
 }

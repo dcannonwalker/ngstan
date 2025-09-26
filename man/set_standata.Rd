@@ -16,12 +16,10 @@ set_standata(
   b_sig2_offset = NULL,
   a_sig2_u = NULL,
   b_sig2_u = NULL,
-  beta_phi_prior = NULL,
   A_S = NULL,
   B_S = NULL,
   S_DATA = NULL,
-  normfactors_known = NULL,
-  use_neg_binomial_response = NULL
+  normfactors_known = NULL
 )
 }
 \arguments{
@@ -57,9 +55,6 @@ for Inverse Gamma priors on `sig2_u`}
 \item{b_sig2_u}{vector of scale parameters
 for Inverse Gamma priors on `sig2_u`}
 
-\item{beta_phi_prior}{2-vector giving location and scale parameters for
-the prior distribution of `beta_phi`}
-
 \item{A_S}{location parameter for `S_PARAM` if `!normfactors_known`}
 
 \item{B_S}{scale parameter for `S_PARAM` if `!normfactors_known`}
@@ -72,8 +67,8 @@ described in the `{edgeR}` package}
 \item{normfactors_known}{Use fixed normalization factors extrinsic to
 the model?}
 
-\item{use_neg_binomial_response}{Use the negative binomial distribution
-instead of Poisson for the errors?}
+\item{beta_phi_prior}{2-vector giving location and scale parameters for
+the prior distribution of `beta_phi`}
 }
 \description{
 Set the value of one of the modifiable elements of `standata`

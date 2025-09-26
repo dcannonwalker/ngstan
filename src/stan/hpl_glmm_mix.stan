@@ -21,29 +21,6 @@ functions {
       }
       return(comps);
     }
-    vector neg_binomial_2_log_lpmf_mixture(
-      array[] int y,
-      array[] vector log_lambda,
-      array[] real prob,
-      int run_estimation,
-      real phi
-      ) {
-        int n_comps = size(log_lambda);
-        if (size(prob) != n_comps) {
-          fatal_error("size(prob) must match size(log_lambda)");
-        }
-        vector[n_comps] comps;
-        for (i in 1:n_comps) {
-          if (size(log_lambda[i]) != size(y)) {
-            fatal_error("size(log_lambda[i]) must match size(y)");
-          }
-          comps[i] = log(prob[i]);
-          if (run_estimation == 1) {
-            comps[i] += neg_binomial_2_log_lpmf(y | log_lambda[i], phi);
-          }
-        }
-        return(comps);
-      }
 }
 data {
   int<lower=1> G;
@@ -74,8 +51,6 @@ data {
   real<lower=0> a_sig2_offset; // shape
   real<lower=0> b_sig2_offset; // scale
   int<lower=0, upper=1> run_estimation;
-  int<lower=0, upper=1> use_neg_binomial_response;
-  vector[use_neg_binomial_response ? 2 : 0] beta_phi_prior;
 }
 transformed data {
   array[N_comps] matrix[N_g, K] X_g_comps;
@@ -98,13 +73,11 @@ parameters {
   vector<lower=0>[U] sig2_u;
   vector<lower=0>[K] sig2_mu;
   vector[normfactors_known ? 0 : N_g] S_PARAM;
-  vector<lower=0>[use_neg_binomial_response ? 2 : 0] beta_phi;
 }
 transformed parameters {
   array[G] vector[N_comps] lp;
   array[G] real lse; // log sum of exponents for each group
   array[G, N_comps] vector[N_g] log_lambda;
-  array[use_neg_binomial_response ? G : 0] real phi;
   vector[N_g] S;
   if (normfactors_known) {
     S = S_DATA;
@@ -118,22 +91,11 @@ transformed parameters {
         Z_g * u[g] +
         S;
     }
-    if (use_neg_binomial_response) {
-      phi[g] = beta_phi[1] + beta_phi[2] * log_offset[g];
-      lp[g] = neg_binomial_2_log_lpmf_mixture(
-        y[g], log_lambda[g],
-        prob,
-        run_estimation,
-        phi[g]);
-        lse[g] = log_sum_exp(lp[g]);
-    } else {
-      lp[g] = poisson_log_lpmf_mixture(
+    lp[g] = poisson_log_lpmf_mixture(
         y[g], log_lambda[g],
         prob,
         run_estimation);
-        lse[g] = log_sum_exp(lp[g]);
-    }
-
+    lse[g] = log_sum_exp(lp[g]);
   }
 }
 model {
@@ -144,9 +106,6 @@ model {
   sig2_offset ~ inv_gamma(a_sig2_offset, b_sig2_offset);
   sig2_mu ~ inv_gamma(a_sig2_mu, b_sig2_mu);
   sig2_u ~ inv_gamma(a_sig2_u, b_sig2_u);
-  if (use_neg_binomial_response) {
-    beta_phi ~ normal(beta_phi_prior[1], beta_phi_prior[2]);
-  }
   if (!normfactors_known) {
     S_PARAM ~ normal(A_S, B_S);
   }
@@ -171,11 +130,6 @@ generated quantities {
   array[G] int which_comp;
   for (g in 1:G) {
     which_comp[g] = categorical_rng(to_vector(prob));
-    if (use_neg_binomial_response) {
-      y_sim[g] = neg_binomial_2_log_rng(log_lambda[g, which_comp[g]],
-        phi[g]);
-    } else {
-      y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
-    }
+    y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
   }
 }
