@@ -16,11 +16,6 @@ data {
   real<lower=0> b_offset; // scale for ALL inv_gamma priors
   real m; // prior mean for mu_offset
 }
-transformed data {
-  array[G, 2] real w;
-  w[, 1] = rep_array(1, G);
-  w[, 2] = rep_array(0, G);
-}
 parameters {
   array[G] real beta;
   array[G] vector[U] u;
@@ -33,22 +28,16 @@ parameters {
   real<lower=0> sig2_u;
 }
 transformed parameters {
-  // array[G] vector[2] w;
-  // w[, 1] = beta;
-  // w[, 2] = rep_array(0, G);
-  array[G, 2] vector[N_g] log_lambda;
-  array[G] vector[2] lp;
+  array[G] vector[N_g] log_lambda;
+  array[G] real lp;
   array[G] real lse;
   array[G] real beta_contr;
   array[G] real u_contr;
   for (g in 1:G) {
-    for (i in 1:2) {
-      // real wgi = w[g, i];
-      log_lambda[g, i] = log_offset[g] + X_g * w[g, i] * beta[g] + Z_g * u[g];
-      lp[g, i] = log(0.5);
-      if (run_estimation == 1) {
-        lp[g, i] += poisson_log_lpmf(y[g] | log_lambda[g, i]);
-      }
+    log_lambda[g] = log_offset[g] + X_g * beta[g] + Z_g * u[g];
+    lp[g] = log(0.5);
+    if (run_estimation == 1) {
+      lp[g] += poisson_log_lpmf(y[g] | log_lambda[g]);
     }
     lse[g] = log_sum_exp(lp[g]);
     beta_contr[g] = normal_lpdf(beta[g] | mu, sig2);
@@ -68,14 +57,8 @@ model {
   target += sum(u_contr);
 }
 generated quantities {
-  array[G] real p_dg;
   array[G, N_g] int y_sim;
-  array[G] int which_comp;
   for (g in 1:G) {
-    vector[2] logdiffs;
-    logdiffs[2] = lp[g][1] - lp[g][2];
-    p_dg[g] = 1 / (1 + exp(logdiffs[2]));
-    which_comp[g] = categorical_rng(rep_vector(0.5, 2));
-    y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
+    y_sim[g] = poisson_log_rng(log_lambda[g]);
   }
 }

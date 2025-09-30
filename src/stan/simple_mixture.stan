@@ -1,26 +1,26 @@
 data {
-  int<lower=1> G;
-  int<lower=1> N_g;
-  vector[N_g] X_g;
-  array[G, N_g] int<lower=0> y;
-  int<lower=0, upper=1> run_estimation;
-  real<lower=0> a;
-  real<lower=0> b;
-  real m;
+  int<lower=1> G; // number of genes
+  int<lower=1> N_g; // number of samples
+  vector[N_g] X_g; // per-sample design
+  array[G, N_g] int<lower=0> y; // gene x sample response counts
+  int<lower=0, upper=1> run_estimation; // sample from prior-only, or use likelihood?
+  real<lower=0> a; // shape parameter for all inverse gamma priors
+  real<lower=0> b; // scale parameter for all inverse gamma priors
+  real m; // mean hyper-parameter mu_offset; should typically be positive
 }
 transformed data {
-  array[G, 2] real w;
+  array[G, 2] real w; // encode the mixture components
   w[, 1] = rep_array(1, G);
   w[, 2] = rep_array(0, G);
 }
 parameters {
-  array[G] real beta;
+  array[G] real beta; // latent continuous treatment parameter
   array[G] real log_offset; // log scale offset or intercept
-  real mu;
-  real<lower=0> sig2;
-  real mu_offset;
-  real<lower=0> sig2_offset;
-  real<lower=0> sig2_mu;
+  real mu; // mean for beta
+  real<lower=0> sig2; // variance for beta
+  real mu_offset; // mean for log_offset
+  real<lower=0> sig2_offset; // variance for log_offset
+  real<lower=0> sig2_mu; // variance for mu
 }
 transformed parameters {
   // array[G] vector[2] w;
@@ -45,7 +45,7 @@ model {
   mu ~ normal(0, sig2_mu);
   sig2 ~ inv_gamma(a, b);
   log_offset ~ normal(mu_offset, sig2_offset);
-  mu_offset ~ normal(m, 1);
+  mu_offset ~ normal(m, sig2_offset);
   sig2_offset ~ inv_gamma(a, b);
   sig2_mu ~ inv_gamma(a, b);
   for (g in 1:G) {
