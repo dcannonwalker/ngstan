@@ -30,16 +30,14 @@ parameters {
 transformed parameters {
   array[G] vector[N_g] log_lambda;
   array[G] real lp;
-  array[G] real lse;
   array[G] real beta_contr;
   array[G] real u_contr;
   for (g in 1:G) {
     log_lambda[g] = log_offset[g] + X_g * beta[g] + Z_g * u[g];
-    lp[g] = log(0.5);
+    lp[g] = 0;
     if (run_estimation == 1) {
       lp[g] += poisson_log_lpmf(y[g] | log_lambda[g]);
     }
-    lse[g] = log_sum_exp(lp[g]);
     beta_contr[g] = normal_lpdf(beta[g] | mu, sig2);
     u_contr[g] = normal_lpdf(u[g] | 0, sig2_u);
   }
@@ -52,7 +50,7 @@ model {
   sig2_offset ~ inv_gamma(a_offset, b_offset);
   sig2_mu ~ inv_gamma(a_mu, b_mu);
   sig2_u ~ inv_gamma(a_u, b_u);
-  target += sum(lse);
+  target += sum(lp);
   target += sum(beta_contr);
   target += sum(u_contr);
 }
