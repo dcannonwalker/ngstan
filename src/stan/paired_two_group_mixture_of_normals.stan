@@ -6,8 +6,8 @@ data {
   matrix[N_g, U] Z_g;
   array[G, N_g] int<lower=0> y;
   int<lower=0, upper=1> run_estimation;
-  real<lower=0> a_sig2; // shape for ALL inv_gamma priors
-  real<lower=0> b_sig2; // scale for ALL inv_gamma priors
+  real<lower=0> a_sig; // shape for ALL inv_gamma priors
+  real<lower=0> b_sig; // scale for ALL inv_gamma priors
   real<lower=0> a_mu; // shape for ALL inv_gamma priors
   real<lower=0> b_mu; // scale for ALL inv_gamma priors
   real<lower=0> a_u; // shape for ALL inv_gamma priors
@@ -15,6 +15,8 @@ data {
   real<lower=0> a_offset; // shape for ALL inv_gamma priors
   real<lower=0> b_offset; // scale for ALL inv_gamma priors
   real m; // prior mean for mu_offset
+  real M1; // prior mean for first mixture component
+  real M2; // prior mean for second mixture component
 }
 transformed data {
   array[G, 2] real w;
@@ -25,12 +27,13 @@ parameters {
   array[G] real beta;
   array[G] vector[U] u;
   array[G] real log_offset; // log scale offset or intercept
-  real mu;
-  real<lower=0> sig2;
+  real mu1; // mean for the first normal mixture component of beta prior
+  real mu2; // mean for the second normal mixture component of beta prior
+  real<lower=0> sig; // sd for beta prior
   real mu_offset;
-  real<lower=0> sig2_offset;
-  real<lower=0> sig2_mu;
-  real<lower=0> sig2_u;
+  real<lower=0> sig_offset;
+  real<lower=0> sig_mu; // sd for hierarchical prior on mu1 & mu2
+  real<lower=0> sig_u;
 }
 transformed parameters {
   // array[G] vector[2] w;
@@ -51,18 +54,20 @@ transformed parameters {
       }
     }
     lse[g] = log_sum_exp(lp[g]);
-    beta_contr[g] = normal_lpdf(beta[g] | mu, sig2);
-    u_contr[g] = normal_lpdf(u[g] | 0, sig2_u);
+    beta_contr[g] = log_sum_exp(normal_lpdf(beta[g] | mu1, sig),
+                                normal_lpdf(beta[g] | mu2, sig));
+    u_contr[g] = normal_lpdf(u[g] | 0, sig_u);
   }
 }
 model {
-  mu ~ normal(0, sig2_mu);
-  sig2 ~ inv_gamma(a_sig2, b_sig2);
-  log_offset ~ normal(mu_offset, sig2_offset);
-  mu_offset ~ normal(m, sig2_mu);
-  sig2_offset ~ inv_gamma(a_offset, b_offset);
-  sig2_mu ~ inv_gamma(a_mu, b_mu);
-  sig2_u ~ inv_gamma(a_u, b_u);
+  mu1 ~ normal(M1, sig_mu);
+  mu2 ~ normal(M2, sig_mu);
+  sig ~ inv_gamma(a_sig, b_sig);
+  log_offset ~ normal(mu_offset, sig_offset);
+  mu_offset ~ normal(m, sig_mu);
+  sig_offset ~ inv_gamma(a_offset, b_offset);
+  sig_mu ~ inv_gamma(a_mu, b_mu);
+  sig_u ~ inv_gamma(a_u, b_u);
   target += sum(lse);
   target += sum(beta_contr);
   target += sum(u_contr);
