@@ -6,6 +6,7 @@ data {
   matrix[N_g, U] Z_g;
   array[G, N_g] int<lower=0> y;
   int<lower=0, upper=1> run_estimation;
+  int<lower=0, upper=1> sim_data;
   real<lower=0> a_sig; // shape for ALL inv_gamma priors
   real<lower=0> b_sig; // scale for ALL inv_gamma priors
   real<lower=0> a_mu; // shape for ALL inv_gamma priors
@@ -74,13 +75,17 @@ model {
 }
 generated quantities {
   array[G] real p_dg; // mean parameter for bernoulli mixture; the probability of null
-  array[G, N_g] int y_sim;
-  array[G] int which_comp;
+  if (sim_data == 1) { // sometimes poisson_log_rng() is a problem
+    array[G, N_g] int y_sim;
+    array[G] int which_comp;
+  }
   for (g in 1:G) {
     vector[2] logdiffs;
     logdiffs[2] = lp[g][1] - lp[g][2];
     p_dg[g] = 1 / (1 + exp(logdiffs[2]));
-    which_comp[g] = categorical_rng(rep_vector(0.5, 2));
-    y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
+    if (sim_data == 1) {
+      which_comp[g] = categorical_rng(rep_vector(0.5, 2));
+      y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
+    }
   }
 }
