@@ -78,14 +78,14 @@ generated quantities {
   if (sim_data == 1) { // sometimes poisson_log_rng() is a problem
     array[G, N_g] int y_sim;
     array[G] int which_comp;
+    for (g in 1:G) {
+      which_comp[g] = categorical_rng(rep_vector(0.5, 2));
+      y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
+    }
   }
   for (g in 1:G) {
     vector[2] logdiffs;
     logdiffs[2] = lp[g][1] - lp[g][2];
     p_dg[g] = 1 / (1 + exp(logdiffs[2]));
-    if (sim_data == 1) {
-      which_comp[g] = categorical_rng(rep_vector(0.5, 2));
-      y_sim[g] = poisson_log_rng(log_lambda[g, which_comp[g]]);
-    }
   }
 }
